@@ -1,6 +1,2 @@
-POST http://localhost:3000/bcrypt HTTP/1.1
-Content-Type: application/json
-
-{
-    "password": "123456"
-}
+###
+GET http://localhost:3000 HTTP/1.1
