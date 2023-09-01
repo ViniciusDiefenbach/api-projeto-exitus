@@ -26,6 +26,10 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Attention!
+
+Don't forget to set up a .env file with DATABASE_URL (you can use the .env.example file as reference) and modify the config folder!
+
 ## Installation
 
 ```bash
