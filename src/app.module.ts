@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { BcryptModule } from './bcrypt/bcrypt.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [PrismaModule, BcryptModule],
+  imports: [PrismaModule, BcryptModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
