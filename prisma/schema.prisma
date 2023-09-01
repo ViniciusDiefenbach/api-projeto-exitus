@@ -41,6 +41,8 @@ model Log {
   created_at DateTime
   user User @relation(fields: [user_id], references: [id])
   user_id String
+
+  @@map("logs")
 }
 
 enum LogType {
