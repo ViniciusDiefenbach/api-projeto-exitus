@@ -19,8 +19,8 @@ model User {
   birth        DateTime?
   shift        Shift?
   roles         Role[]
-  students     ResponsibleRelation[] @relation("students")
-  responsibles ResponsibleRelation[] @relation("responsibles")
+  students     ResponsibleRelation[] @relation("responsibles")
+  responsibles ResponsibleRelation[] @relation("students")
   logs         Log[]
   email_tokens EmailToken[]
   refresh_tokens RefreshToken[]
