@@ -8,81 +8,81 @@ datasource db {
 }
 
 model User {
-  id           String                @id
-  active       Boolean
-  name         String
-  email        String                @unique
-  password     String
-  fingerprint  String                @unique
-  created_at   DateTime
-  enrollment   String?               @unique
-  birth        DateTime?
-  shift        Shift?
-  roles         Role[]
-  students     ResponsibleRelation[] @relation("responsibles")
-  responsibles ResponsibleRelation[] @relation("students")
-  logs         Log[]
-  email_tokens EmailToken[]
+  id             String                @id @db.Char(37)
+  active         Boolean
+  name           String
+  email          String                @unique
+  password       String
+  fingerprint    String                @unique
+  created_at     DateTime
+  enrollment     String?               @unique
+  birth          DateTime?
+  shift          Shift?
+  roles          Role[]
+  students       ResponsibleRelation[] @relation("responsibles")
+  responsibles   ResponsibleRelation[] @relation("students")
+  logs           Log[]
+  email_tokens   EmailToken[]
   refresh_tokens RefreshToken[]
 
   @@map("users")
 }
 
 model Role {
-  id        String   @id
+  id        String   @id @db.Char(37)
   role_type RoleType
   user      User     @relation(fields: [user_id], references: [id])
-  user_id   String
+  user_id   String   @db.Char(37)
 
   @@map("roles")
 }
 
 model ResponsibleRelation {
   student        User   @relation("students", fields: [student_id], references: [id])
-  student_id     String
+  student_id     String @db.Char(37)
   responsible    User   @relation("responsibles", fields: [responsible_id], references: [id])
-  responsible_id String
+  responsible_id String @db.Char(37)
 
   @@id([student_id, responsible_id])
   @@map("responsible_relations")
 }
 
 model Log {
-  id         String   @id
+  id         String   @id @db.Char(37)
   log_type   LogType
   created_at DateTime
   user       User     @relation(fields: [user_id], references: [id])
-  user_id    String
+  user_id    String   @db.Char(37)
 
   @@map("logs")
 }
 
 // Should we have a separate table for admins?
 model Admin {
-  id String @id
-  name String
-  email String @unique
+  id       String @id @db.Char(37)
+  name     String
+  email    String @unique
   password String
 
   @@map("admins")
 }
 
 model EmailToken {
-  id String @id
+  id         String   @id @db.Char(37)
   created_at DateTime
   expires_at DateTime
-  user User @relation(fields: [user_id], references: [id])
-  user_id String
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String   @db.Char(37)
 
   @@map("email_tokens")
 }
 
 model RefreshToken {
-  id String @id
+  id         String   @id @db.Char(37)
   created_at DateTime
   expires_at DateTime
-  user User @relation(fields: [user_id], references: [id])
-  user_id String
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String   @db.Char(37)
 
   @@map("refresh_tokens")
 }
