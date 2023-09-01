@@ -6,3 +6,31 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id          String    @id
+  active      Boolean
+  name        String
+  email       String    @unique
+  password    String
+  fingerprint String    @unique
+  created_at  DateTime
+  enrollment  String?   @unique
+  birth       DateTime?
+  shift       String?
+  guardeds    GuardRelation[] @relation("guardeds")
+  guardians       GuardRelation[] @relation("guardians")
+
+  @@map("users")
+}
+
+model GuardRelation {
+  guarded User   @relation("guardeds",fields: [guarded_id], references: [id])
+  guarded_id       String
+  guardian User @relation("guardians", fields: [guardian_id], references: [id])
+  guardian_id         String
+
+  @@id([guarded_id, guardian_id])
+  @@map("guards")
+}
+
