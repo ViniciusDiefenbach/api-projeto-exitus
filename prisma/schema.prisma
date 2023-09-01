@@ -8,39 +8,49 @@ datasource db {
 }
 
 model User {
-  id          String    @id
-  active      Boolean
-  name        String
-  email       String    @unique
-  password    String
-  fingerprint String    @unique
-  created_at  DateTime
-  enrollment  String?   @unique
-  birth       DateTime?
-  shift       Shift?
-  guardeds    GuardRelation[] @relation("guardeds")
-  guardians       GuardRelation[] @relation("guardians")
-  logs Log[]
+  id           String                @id
+  active       Boolean
+  name         String
+  email        String                @unique
+  password     String
+  fingerprint  String                @unique
+  created_at   DateTime
+  enrollment   String?               @unique
+  birth        DateTime?
+  shift        Shift?
+  roles         Role[]
+  students     ResponsibleRelation[] @relation("students")
+  responsibles ResponsibleRelation[] @relation("responsibles")
+  logs         Log[]
 
   @@map("users")
 }
 
-model GuardRelation {
-  guarded User   @relation("guardeds",fields: [guarded_id], references: [id])
-  guarded_id       String
-  guardian User @relation("guardians", fields: [guardian_id], references: [id])
-  guardian_id         String
+model Role {
+  id        String   @id
+  role_type RoleType
+  user      User     @relation(fields: [user_id], references: [id])
+  user_id   String
 
-  @@id([guarded_id, guardian_id])
-  @@map("guards")
+  @@map("roles")
+}
+
+model ResponsibleRelation {
+  student        User   @relation("students", fields: [student_id], references: [id])
+  student_id     String
+  responsible    User   @relation("responsibles", fields: [responsible_id], references: [id])
+  responsible_id String
+
+  @@id([student_id, responsible_id])
+  @@map("responsible_relations")
 }
 
 model Log {
-  id String @id
-  log_type LogType
+  id         String   @id
+  log_type   LogType
   created_at DateTime
-  user User @relation(fields: [user_id], references: [id])
-  user_id String
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
 
   @@map("logs")
 }
@@ -48,6 +58,13 @@ model Log {
 enum LogType {
   IN
   OUT
+}
+
+enum RoleType {
+  ADMIN
+  STUDENT
+  RESPONSIBLE
+  EMPLOYEE
 }
 
 enum Shift {
