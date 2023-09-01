@@ -55,6 +55,16 @@ model Log {
   @@map("logs")
 }
 
+// Should we have a separate table for admins?
+model Admin {
+  id String @id
+  name String
+  email String @unique
+  password String
+
+  @@map("admins")
+}
+
 enum LogType {
   IN
   OUT
