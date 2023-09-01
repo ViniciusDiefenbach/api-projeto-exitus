@@ -22,6 +22,8 @@ model User {
   students     ResponsibleRelation[] @relation("students")
   responsibles ResponsibleRelation[] @relation("responsibles")
   logs         Log[]
+  email_tokens EmailToken[]
+  refresh_tokens RefreshToken[]
 
   @@map("users")
 }
@@ -63,6 +65,26 @@ model Admin {
   password String
 
   @@map("admins")
+}
+
+model EmailToken {
+  id String @id
+  created_at DateTime
+  expires_at DateTime
+  user User @relation(fields: [user_id], references: [id])
+  user_id String
+
+  @@map("email_tokens")
+}
+
+model RefreshToken {
+  id String @id
+  created_at DateTime
+  expires_at DateTime
+  user User @relation(fields: [user_id], references: [id])
+  user_id String
+
+  @@map("refresh_tokens")
 }
 
 enum LogType {
