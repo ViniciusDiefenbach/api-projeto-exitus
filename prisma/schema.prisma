@@ -17,9 +17,10 @@ model User {
   created_at  DateTime
   enrollment  String?   @unique
   birth       DateTime?
-  shift       String?
+  shift       Shift?
   guardeds    GuardRelation[] @relation("guardeds")
   guardians       GuardRelation[] @relation("guardians")
+  logs Log[]
 
   @@map("users")
 }
@@ -34,3 +35,21 @@ model GuardRelation {
   @@map("guards")
 }
 
+model Log {
+  id String @id
+  log_type LogType
+  created_at DateTime
+  user User @relation(fields: [user_id], references: [id])
+  user_id String
+}
+
+enum LogType {
+  IN
+  OUT
+}
+
+enum Shift {
+  MORNING
+  AFTERNOON
+  NIGHT
+}
