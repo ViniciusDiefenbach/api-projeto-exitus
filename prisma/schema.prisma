@@ -8,70 +8,90 @@ datasource db {
 }
 
 model User {
-  id             String                @id @db.Char(37)
-  active         Boolean
-  name           String
-  email          String                @unique
-  password       String
-  fingerprint    String                @unique
-  created_at     DateTime
-  enrollment     String?               @unique
-  birth          DateTime?
-  shift          Shift?
-  roles          Role[]
-  students       ResponsibleRelation[] @relation("responsibles")
-  responsibles   ResponsibleRelation[] @relation("students")
-  logs           Log[]
-  email_tokens   EmailToken[]
-  refresh_tokens RefreshToken[]
+  id          String             @id @db.Char(37)
+  active      Boolean
+  name        String
+  email       String             @unique @db.VarChar(255)
+  password    String
+  fingerprint String             @unique
+  enrollment  String?            @unique
+  birth       DateTime?
+  shift       Shift?
+  guardeds    GuardRelation[]    @relation("guardians")
+  guardians   GuardRelation[]    @relation("guardeds")
+  roles       UserRoleRelation[]
+  registers   Register[]
+  email_token EmailToken[]
+  refresh_token RefreshToken[]
+  logs        Log[]
 
   @@map("users")
 }
 
+model UserRoleRelation {
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String @db.Char(37)
+  role    Role   @relation(fields: [role_id], references: [id])
+  role_id String @db.Char(37)
+
+  @@id([user_id, role_id])
+  @@map("user_role_relations")
+}
+
 model Role {
-  id        String   @id @db.Char(37)
+  id        String             @id @db.Char(37)
   role_type RoleType
-  user      User     @relation(fields: [user_id], references: [id])
-  user_id   String   @db.Char(37)
+  users     UserRoleRelation[]
 
   @@map("roles")
 }
 
-model ResponsibleRelation {
-  student        User   @relation("students", fields: [student_id], references: [id])
-  student_id     String @db.Char(37)
-  responsible    User   @relation("responsibles", fields: [responsible_id], references: [id])
-  responsible_id String @db.Char(37)
+model GuardRelation {
+  guarded     User        @relation("guardeds", fields: [guarded_id], references: [id])
+  guarded_id  String      @db.Char(37)
+  guardian    User        @relation("guardians", fields: [guardian_id], references: [id])
+  guardian_id String      @db.Char(37)
+  early_exits EarlyExit[]
 
-  @@id([student_id, responsible_id])
-  @@map("responsible_relations")
+  @@id([guarded_id, guardian_id])
+  @@map("guard_relations")
+}
+
+model EarlyExit {
+  id             String        @id @db.Char(37)
+  start_at       DateTime
+  end_at         DateTime
+  time           DateTime
+  guard_relation GuardRelation @relation(fields: [guarded_id, guardian_id], references: [guarded_id, guardian_id])
+  guarded_id     String        @db.Char(37)
+  guardian_id    String        @db.Char(37)
+
+  @@map("early_exits")
+}
+
+model Register {
+  id            String       @id @db.Char(37)
+  register_type RegisterType
+  user          User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id       String       @db.Char(37)
+
+  @@map("registers")
 }
 
 model Log {
   id         String   @id @db.Char(37)
-  log_type   LogType
-  created_at DateTime
-  user       User     @relation(fields: [user_id], references: [id])
-  user_id    String   @db.Char(37)
+  action     String
+  made_at    DateTime
+  made_by    User     @relation(fields: [made_by_id], references: [id])
+  made_by_id String   @db.Char(37)
 
   @@map("logs")
 }
 
-// Should we have a separate table for admins?
-model Admin {
-  id       String @id @db.Char(37)
-  name     String
-  email    String @unique
-  password String
-
-  @@map("admins")
-}
-
 model EmailToken {
   id         String   @id @db.Char(37)
-  created_at DateTime
   expires_at DateTime
-  user       User     @relation(fields: [user_id], references: [id])
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id    String   @db.Char(37)
 
   @@map("email_tokens")
@@ -79,23 +99,22 @@ model EmailToken {
 
 model RefreshToken {
   id         String   @id @db.Char(37)
-  created_at DateTime
   expires_at DateTime
-  user       User     @relation(fields: [user_id], references: [id])
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id    String   @db.Char(37)
 
   @@map("refresh_tokens")
 }
 
-enum LogType {
+enum RegisterType {
   IN
   OUT
 }
 
 enum RoleType {
   ADMIN
-  STUDENT
-  RESPONSIBLE
+  GUARDED
+  GUARDIAN
   EMPLOYEE
 }
 
