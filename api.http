@@ -66,3 +66,9 @@ Content-Type: application/json
 
 ### 6. Delete a user
 DELETE http://localhost:3000/user/<uuid> HTTP/1.1
+
+### 7. Get all roles
+GET http://localhost:3000/role HTTP/1.1
+
+### 8. Get a role by id
+GET http://localhost:3000/role/<uuid> HTTP/1.1
