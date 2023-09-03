@@ -72,7 +72,7 @@ model Register {
   id            String       @id @db.Char(37)
   register_type RegisterType
   time          DateTime
-  user          User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user          User         @relation(fields: [user_id], references: [id])
   user_id       String       @db.Char(37)
 
   @@map("registers")
@@ -81,7 +81,7 @@ model Register {
 model EmailToken {
   id         String   @id @db.Char(37)
   expires_at DateTime
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [user_id], references: [id])
   user_id    String   @db.Char(37)
 
   @@map("email_tokens")
@@ -90,7 +90,7 @@ model EmailToken {
 model RefreshToken {
   id         String   @id @db.Char(37)
   expires_at DateTime
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [user_id], references: [id])
   user_id    String   @db.Char(37)
 
   @@map("refresh_tokens")
