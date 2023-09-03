@@ -28,4 +28,18 @@ describe('BcryptService', () => {
     expect(hash != password).toBeTruthy();
     expect(await service.compare({ password, hash })).toBeTruthy();
   });
+
+  it("shouldn't compare a hash with a different password", async () => {
+    // Arrange
+    const password = 'Olá mundo';
+    const password2 = 'Olá mundo 2';
+
+    // Act
+    const hash = await service.hash({ password });
+
+    // Assert
+    expect(hash).toBeTruthy();
+    expect(hash != password).toBeTruthy();
+    expect(await service.compare({ password: password2, hash })).toBeFalsy();
+  });
 });

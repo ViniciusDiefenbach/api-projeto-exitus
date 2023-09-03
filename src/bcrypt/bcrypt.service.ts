@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 
 type BcryptHashProps = {
   password: string;
@@ -11,13 +12,11 @@ type BcryptCompareProps = {
 
 @Injectable()
 export class BcryptService {
-  private readonly bcrypt = require('bcrypt');
-
   async hash({ password }: BcryptHashProps) {
-    return await this.bcrypt.hash(password, 10);
+    return await bcrypt.hash(password, 10);
   }
 
   async compare({ password, hash }: BcryptCompareProps) {
-    return await this.bcrypt.compare(password, hash);
+    return await bcrypt.compare(password, hash);
   }
 }
