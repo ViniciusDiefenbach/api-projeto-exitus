@@ -1,2 +1,60 @@
-###
+### 1. Get a simple Hello World!
 GET http://localhost:3000 HTTP/1.1
+
+### 2. Create a user
+
+// JSON body
+
+// active: optional (recive true by default)
+// name: required
+// email: required
+// password: optional (recive a uuid by default)
+// fingerprint: optional (recive a uuid by default)
+// enrollment: optional (nullable)
+// birth: optional (nullable)
+// shift: optional (nullable)
+
+POST http://localhost:3000/user HTTP/1.1
+Content-Type: application/json
+
+{
+  "active": false,
+  "name": "John Doe",
+  "email": "johndoe@mail.com",
+  "password": "123456",
+  "fingerprint": "john doe fingerprint",
+  "enrollment": "john doe enrollment",
+  "birth": "2005-01-01",
+  "shift": "MORNING"
+}
+
+### 3. Get all the users
+
+// Page query param
+
+// page: optional (recive 1 by default)
+// take: optional (recive 10 by default)
+
+// Filter query param
+
+// * if the optional query param is not provided, don't filter by that field *
+// active: optional (find for registers that are active or not) (you need to provide true or false - a boolean value)
+// name: optional (find for registers that contains the name)
+// email: optional (find for registers that contains the email)
+// shift: optional (find for registers that the shift are equals to the shift provided)
+
+GET http://localhost:3000/user HTTP/1.1
+
+### 4. Get a user by id
+GET http://localhost:3000/user/<uuid> HTTP/1.1
+
+### 5. Update a user
+PATCH http://localhost:3000/user/<uuid> HTTP/1.1
+Content-Type: application/json
+
+{
+  "active": true
+}
+
+### 6. Delete a user
+DELETE http://localhost:3000/user/<uuid> HTTP/1.1

@@ -23,7 +23,6 @@ model User {
   registers     Register[]
   email_token   EmailToken[]
   refresh_token RefreshToken[]
-  logs          Log[]
 
   @@map("users")
 }
@@ -72,20 +71,11 @@ model EarlyExit {
 model Register {
   id            String       @id @db.Char(37)
   register_type RegisterType
+  time          DateTime
   user          User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id       String       @db.Char(37)
 
   @@map("registers")
-}
-
-model Log {
-  id         String   @id @db.Char(37)
-  action     String
-  made_at    DateTime
-  made_by    User     @relation(fields: [made_by_id], references: [id])
-  made_by_id String   @db.Char(37)
-
-  @@map("logs")
 }
 
 model EmailToken {
