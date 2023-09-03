@@ -18,8 +18,20 @@ export class UserService {
     password,
     fingerprint,
     birth,
+    guardeds,
     ...data
   }: CreateUserDto) {
+    const guardedsData = guardeds
+      ? {
+          createMany: {
+            data: [
+              ...guardeds?.map(({ id }) => ({
+                guarded_id: id,
+              })),
+            ],
+          },
+        }
+      : undefined;
     return await this.prismaService.user.create({
       data: {
         id: randomUUID(),
@@ -29,6 +41,7 @@ export class UserService {
           : randomUUID(),
         fingerprint: fingerprint ?? randomUUID(),
         birth: birth ? new Date(birth) : undefined,
+        guardeds: guardedsData,
         ...data,
       },
     });

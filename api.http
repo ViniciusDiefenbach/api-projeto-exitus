@@ -13,6 +13,14 @@ GET http://localhost:3000 HTTP/1.1
 // enrollment: optional (nullable)
 // birth: optional (nullable)
 // shift: optional (nullable)
+// guardeds: optional (nullable) (you need to provide an array of id of the guardeds, like the example below)
+<!--
+  "guardeds": [
+    {
+      "id": "3b74d1fd-d2fc-4d9a-a944-797883bdc97b"
+    }
+  ]
+-->
 
 POST http://localhost:3000/user HTTP/1.1
 Content-Type: application/json
