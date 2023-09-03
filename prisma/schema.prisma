@@ -8,22 +8,22 @@ datasource db {
 }
 
 model User {
-  id          String             @id @db.Char(37)
-  active      Boolean
-  name        String
-  email       String             @unique @db.VarChar(255)
-  password    String
-  fingerprint String             @unique
-  enrollment  String?            @unique
-  birth       DateTime?
-  shift       Shift?
-  guardeds    GuardRelation[]    @relation("guardians")
-  guardians   GuardRelation[]    @relation("guardeds")
-  roles       UserRoleRelation[]
-  registers   Register[]
-  email_token EmailToken[]
+  id            String             @id @db.Char(37)
+  active        Boolean
+  name          String
+  email         String             @unique @db.VarChar(255)
+  password      String
+  fingerprint   String             @unique
+  enrollment    String?            @unique
+  birth         DateTime?
+  shift         Shift?
+  guardeds      GuardRelation[]    @relation("guardians")
+  guardians     GuardRelation[]    @relation("guardeds")
+  roles         UserRoleRelation[]
+  registers     Register[]
+  email_token   EmailToken[]
   refresh_token RefreshToken[]
-  logs        Log[]
+  logs          Log[]
 
   @@map("users")
 }
@@ -40,7 +40,7 @@ model UserRoleRelation {
 
 model Role {
   id        String             @id @db.Char(37)
-  role_type RoleType
+  role_type RoleType           @unique
   users     UserRoleRelation[]
 
   @@map("roles")
