@@ -11,7 +11,7 @@ model User {
   id            String             @id @db.Char(37)
   active        Boolean
   name          String
-  email         String             @unique @db.VarChar(255)
+  email         String             @unique
   password      String
   fingerprint   String             @unique
   enrollment    String?            @unique

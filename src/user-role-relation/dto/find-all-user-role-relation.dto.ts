@@ -1,6 +1,6 @@
 export class FindAllUserRoleRelationDto {
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
   user?: string;
   role?: string;
 }

@@ -8,9 +8,12 @@ import { DeleteUserRoleRelationDto } from './dto/delete-user-role-relation.dto';
 export class UserRoleRelationService {
   constructor(private readonly prismService: PrismaService) {}
 
-  async create(createUserRoleRelationDto: CreateUserRoleRelationDto) {
+  async create({ role: role_id, user: user_id }: CreateUserRoleRelationDto) {
     return await this.prismService.userRoleRelation.create({
-      data: createUserRoleRelationDto,
+      data: {
+        role_id,
+        user_id,
+      },
     });
   }
 
