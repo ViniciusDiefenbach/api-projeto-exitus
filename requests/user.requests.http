@@ -1,7 +1,4 @@
-### 1. Get a simple Hello World!
-GET http://localhost:3000 HTTP/1.1
-
-### 2. Create a user
+### 1. Create a user
 
 // JSON body
 
@@ -51,12 +48,12 @@ Content-Type: application/json
   ]
 }
 
-### 3. Get all the users
+### 2. Get all the users
 
 // Page query param
 
-// page: optional (recive 1 by default)
-// take: optional (recive 10 by default)
+// page: optional (recive 0 by default)
+// limit: optional (recive 8 by default)
 
 // Filter query param
 
@@ -68,10 +65,10 @@ Content-Type: application/json
 
 GET http://localhost:3000/user HTTP/1.1
 
-### 4. Get a user by id
+### 3. Get a user by id
 GET http://localhost:3000/user/<uuid> HTTP/1.1
 
-### 5. Update a user
+### 4. Update a user
 PATCH http://localhost:3000/user/<uuid> HTTP/1.1
 Content-Type: application/json
 
@@ -79,11 +76,5 @@ Content-Type: application/json
   "active": true
 }
 
-### 6. Delete a user
+### 5. Delete a user
 DELETE http://localhost:3000/user/<uuid> HTTP/1.1
-
-### 7. Get all roles
-GET http://localhost:3000/role HTTP/1.1
-
-### 8. Get a role by id
-GET http://localhost:3000/role/<uuid> HTTP/1.1

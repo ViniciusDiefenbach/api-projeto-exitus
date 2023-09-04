@@ -1,0 +1,2 @@
+### 1. Get a simple Hello World!
+GET http://localhost:3000 HTTP/1.1
