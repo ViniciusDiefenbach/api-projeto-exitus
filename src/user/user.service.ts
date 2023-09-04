@@ -5,6 +5,7 @@ import { FindAllUserDto } from './dto/find-all-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { BcryptService } from '../bcrypt/bcrypt.service';
 import { randomUUID } from 'crypto';
+import { adptCreateMany } from '@/prisma/adpt-create-many';
 
 @Injectable()
 export class UserService {
@@ -19,19 +20,9 @@ export class UserService {
     fingerprint,
     birth,
     guardeds,
+    roles,
     ...data
   }: CreateUserDto) {
-    const guardedsData = guardeds
-      ? {
-          createMany: {
-            data: [
-              ...guardeds?.map(({ id }) => ({
-                guarded_id: id,
-              })),
-            ],
-          },
-        }
-      : undefined;
     return await this.prismaService.user.create({
       data: {
         id: randomUUID(),
@@ -41,7 +32,8 @@ export class UserService {
           : randomUUID(),
         fingerprint: fingerprint ?? randomUUID(),
         birth: birth ? new Date(birth) : undefined,
-        guardeds: guardedsData,
+        guardeds: adptCreateMany({ array: guardeds, key: 'guarded_id' }),
+        roles: adptCreateMany({ array: roles, key: 'role_id' }),
         ...data,
       },
     });

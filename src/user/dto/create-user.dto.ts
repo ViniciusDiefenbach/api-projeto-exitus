@@ -1,9 +1,10 @@
 import { UserDto } from './user.dto';
 
-type Guardeds = {
+export type ObjUUID = {
   id: string;
 };
 
 export class CreateUserDto extends UserDto {
-  guardeds?: Array<Guardeds>;
+  guardeds?: Array<ObjUUID>;
+  roles?: Array<ObjUUID>;
 }
