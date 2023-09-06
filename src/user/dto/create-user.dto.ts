@@ -1,3 +1,4 @@
+import { IsArray, IsOptional } from 'class-validator';
 import { UserDto } from './user.dto';
 
 export type ObjUUID = {
@@ -5,6 +6,11 @@ export type ObjUUID = {
 };
 
 export class CreateUserDto extends UserDto {
+  @IsOptional()
+  @IsArray()
   guardeds?: Array<ObjUUID>;
+
+  @IsOptional()
+  @IsArray()
   roles?: Array<ObjUUID>;
 }

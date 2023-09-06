@@ -14,24 +14,13 @@ export class UserService {
     private readonly bcryptService: BcryptService,
   ) {}
 
-  async create({
-    active,
-    password,
-    fingerprint,
-    birth,
-    guardeds,
-    roles,
-    ...data
-  }: CreateUserDto) {
+  async create({ password, guardeds, roles, ...data }: CreateUserDto) {
     return await this.prismaService.user.create({
       data: {
         id: randomUUID(),
-        active: active ?? true,
         password: password
           ? await this.bcryptService.hash({ password })
           : randomUUID(),
-        fingerprint: fingerprint ?? randomUUID(),
-        birth: birth ? new Date(birth) : undefined,
         guardeds: adptCreateMany({ array: guardeds, key: 'guarded_id' }),
         roles: adptCreateMany({ array: roles, key: 'role_id' }),
         ...data,
@@ -89,14 +78,13 @@ export class UserService {
     return await this.prismaService.user.findUnique({ where: { id } });
   }
 
-  async update(id: string, { password, birth, ...data }: UpdateUserDto) {
+  async update(id: string, { password, ...data }: UpdateUserDto) {
     return await this.prismaService.user.update({
       where: { id },
       data: {
         password: password
           ? await this.bcryptService.hash({ password })
           : undefined,
-        birth: birth ? new Date(birth) : undefined,
         ...data,
       },
     });

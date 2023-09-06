@@ -9,7 +9,14 @@ import { GuardRelationModule } from './guard-relation/guard-relation.module';
 import { RegisterModule } from './register/register.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, RoleModule, UserRoleRelationModule, GuardRelationModule, RegisterModule],
+  imports: [
+    PrismaModule,
+    UserModule,
+    RoleModule,
+    UserRoleRelationModule,
+    GuardRelationModule,
+    RegisterModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
