@@ -28,33 +28,9 @@ export class UserService {
     });
   }
 
-  async findAll({
-    page,
-    limit,
-    active: aux,
-    shift,
-    ...filter
-  }: FindAllUserDto) {
+  async findAll({ page, limit, active, shift, ...filter }: FindAllUserDto) {
     const take = limit ? +limit : 8;
     const skip = page ? take * +page : 0;
-    let active: boolean | undefined;
-    switch (aux) {
-      case 'true':
-        active = true;
-        break;
-      case 'True':
-        active = true;
-        break;
-      case 'false':
-        active = false;
-        break;
-      case 'False':
-        active = false;
-        break;
-      default:
-        active = undefined;
-        break;
-    }
     return this.prismaService.user.findMany({
       take,
       skip,

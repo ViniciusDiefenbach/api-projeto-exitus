@@ -32,9 +32,18 @@ export class FindAllUserDto {
   @IsOptional()
   @IsBooleanString()
   @Transform(({ value }) => {
-    if (value === 'true') return true;
-    if (value === 'false') return false;
-    return undefined;
+    switch (value) {
+      case 'true':
+        return true;
+      case 'True':
+        return true;
+      case 'false':
+        return false;
+      case 'False':
+        return false;
+      default:
+        return undefined;
+    }
   })
   active?: boolean;
 
