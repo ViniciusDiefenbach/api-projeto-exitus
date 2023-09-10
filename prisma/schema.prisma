@@ -17,6 +17,8 @@ model User {
   enrollment    String?            @unique
   birth         DateTime?
   shift         Shift?
+  created_at     DateTime
+  updated_at     DateTime           @updatedAt
   guardeds      GuardRelation[]    @relation("guardians")
   guardians     GuardRelation[]    @relation("guardeds")
   roles         UserRoleRelation[]
@@ -28,10 +30,11 @@ model User {
 }
 
 model UserRoleRelation {
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String @db.Char(37)
-  role    Role   @relation(fields: [role_id], references: [id])
-  role_id String @db.Char(37)
+  user      User     @relation(fields: [user_id], references: [id])
+  user_id   String   @db.Char(37)
+  role      Role     @relation(fields: [role_id], references: [id])
+  role_id   String   @db.Char(37)
+  created_at DateTime
 
   @@id([user_id, role_id])
   @@map("user_role_relations")
@@ -40,6 +43,8 @@ model UserRoleRelation {
 model Role {
   id        String             @id @db.Char(37)
   role_type RoleType           @unique
+  created_at DateTime
+  updated_at DateTime           @updatedAt
   users     UserRoleRelation[]
 
   @@map("roles")
@@ -50,6 +55,7 @@ model GuardRelation {
   guarded_id  String      @db.Char(37)
   guardian    User        @relation("guardians", fields: [guardian_id], references: [id])
   guardian_id String      @db.Char(37)
+  created_at   DateTime
   early_exits EarlyExit[]
 
   @@id([guarded_id, guardian_id])
@@ -61,6 +67,8 @@ model EarlyExit {
   start_at       DateTime
   end_at         DateTime
   time           DateTime
+  created_at      DateTime
+  updated_at      DateTime      @updatedAt
   guard_relation GuardRelation @relation(fields: [guarded_id, guardian_id], references: [guarded_id, guardian_id])
   guarded_id     String        @db.Char(37)
   guardian_id    String        @db.Char(37)
@@ -72,6 +80,8 @@ model Register {
   id            String       @id @db.Char(37)
   register_type RegisterType
   time          DateTime
+  created_at     DateTime
+  updated_at     DateTime     @updatedAt
   user          User         @relation(fields: [user_id], references: [id])
   user_id       String       @db.Char(37)
 
@@ -80,6 +90,7 @@ model Register {
 
 model EmailToken {
   id         String   @id @db.Char(37)
+  created_at  DateTime
   expires_at DateTime
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String   @db.Char(37)
@@ -89,6 +100,7 @@ model EmailToken {
 
 model RefreshToken {
   id         String   @id @db.Char(37)
+  created_at  DateTime
   expires_at DateTime
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String   @db.Char(37)
