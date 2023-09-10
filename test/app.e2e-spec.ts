@@ -1,4 +1,4 @@
-import * as supertest from 'supertest';
+import supertest from 'supertest';
 
 describe('AppController (e2e)', () => {
   let app = supertest('http://localhost:3000');

@@ -7,6 +7,7 @@ import { RoleModule } from './role/role.module';
 import { UserRoleRelationModule } from './user-role-relation/user-role-relation.module';
 import { GuardRelationModule } from './guard-relation/guard-relation.module';
 import { RegisterModule } from './register/register.module';
+import { EarlyExitModule } from './early-exit/early-exit.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { RegisterModule } from './register/register.module';
     UserRoleRelationModule,
     GuardRelationModule,
     RegisterModule,
+    EarlyExitModule,
   ],
   controllers: [AppController],
   providers: [AppService],
