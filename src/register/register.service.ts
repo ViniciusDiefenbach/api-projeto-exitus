@@ -36,6 +36,7 @@ export class RegisterService {
         time,
         register_type,
         user_id,
+        created_at: new Date(),
       },
     });
   }

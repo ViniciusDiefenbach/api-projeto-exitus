@@ -24,6 +24,7 @@ export class UserService {
         guardeds: adptCreateMany({ array: guardeds, key: 'guarded_id' }),
         roles: adptCreateMany({ array: roles, key: 'role_id' }),
         ...data,
+        created_at: new Date(),
       },
     });
   }

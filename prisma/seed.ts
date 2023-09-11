@@ -11,6 +11,7 @@ async function main() {
     create: {
       id: randomUUID(),
       role_type: 'ADMIN',
+      created_at: new Date(),
     },
   });
   await prisma.role.upsert({
@@ -19,6 +20,7 @@ async function main() {
     create: {
       id: randomUUID(),
       role_type: 'GUARDED',
+      created_at: new Date(),
     },
   });
   await prisma.role.upsert({
@@ -27,6 +29,7 @@ async function main() {
     create: {
       id: randomUUID(),
       role_type: 'GUARDIAN',
+      created_at: new Date(),
     },
   });
   await prisma.role.upsert({
@@ -35,6 +38,7 @@ async function main() {
     create: {
       id: randomUUID(),
       role_type: 'EMPLOYEE',
+      created_at: new Date(),
     },
   });
   console.log('The roles were created successfully!');
@@ -48,15 +52,17 @@ async function main() {
       email: 'admin@mail.com',
       fingerprint: 'admin',
       password: await hash('admin', 10),
+      created_at: new Date(),
       roles: {
         create: {
           role: {
             connect: {
               role_type: 'ADMIN',
-            },
+            }
           },
-        },
-      },
+          created_at: new Date(),
+        }
+      }
     },
   });
   console.log('The admin was created successfully!');

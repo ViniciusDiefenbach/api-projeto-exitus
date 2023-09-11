@@ -16,7 +16,7 @@ export class EarlyExitService {
       data: {
         id: randomUUID(),
         ...createEarlyExitDto,
-        create_at: new Date(),
+        created_at: new Date(),
       }
     })
   }

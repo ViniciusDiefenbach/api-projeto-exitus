@@ -16,6 +16,7 @@ export class GuardRelationService {
       data: {
         guarded_id,
         guardian_id,
+        created_at: new Date(),
       },
     });
   }

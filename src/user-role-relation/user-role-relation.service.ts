@@ -13,6 +13,7 @@ export class UserRoleRelationService {
       data: {
         role_id,
         user_id,
+        created_at: new Date(),
       },
     });
   }
