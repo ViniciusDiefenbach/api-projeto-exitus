@@ -9,8 +9,8 @@ export class GuardRelationService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create({
-    guarded: guarded_id,
-    guardian: guardian_id,
+    guarded_id,
+    guardian_id
   }: CreateGuardRelationDto) {
     return await this.prismaService.guardRelation.create({
       data: {

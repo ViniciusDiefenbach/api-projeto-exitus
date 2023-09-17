@@ -6,9 +6,9 @@ import { DeleteUserRoleRelationDto } from './dto/delete-user-role-relation.dto';
 
 @Injectable()
 export class UserRoleRelationService {
-  constructor(private readonly prismService: PrismaService) {}
+  constructor(private readonly prismService: PrismaService) { }
 
-  async create({ role: role_id, user: user_id }: CreateUserRoleRelationDto) {
+  async create({ role_id, user_id }: CreateUserRoleRelationDto) {
     return await this.prismService.userRoleRelation.create({
       data: {
         role_id,

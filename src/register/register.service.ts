@@ -7,33 +7,34 @@ import { FindAllRegisterDto } from './dto/find-all-register.dto';
 
 @Injectable()
 export class RegisterService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) { }
 
-  async create({ time: t, regiter_type: r, user: user_id }: CreateRegisterDto) {
-    const time = t ? new Date(t) : new Date();
-    const last_register = await this.prismaService.register.findFirst({
-      take: 1,
-      orderBy: {
-        time: 'desc',
-      },
-    });
-    const time_diff_in_days =
-      (new Date().getTime() - new Date(last_register.time).getTime()) *
-      1000 *
-      60 *
-      60 *
-      24;
-    const register_type = r
-      ? r
-      : !last_register
-      ? 'IN'
-      : time_diff_in_days > 1
-      ? 'IN'
-      : 'OUT';
+  async create({ time, regiter_type: r, user_id }: CreateRegisterDto) {
+    let register_type = r;
+    if (!r) {
+      const last_register = await this.prismaService.register.findFirst({
+        take: 1,
+        orderBy: {
+          time: 'desc',
+        },
+      });
+      if (!last_register) {
+        register_type = 'IN';
+      } else {
+        const time_diff_in_days =
+          (new Date().getTime() - new Date(last_register.time).getTime()) *
+          1000 *
+          60 *
+          60 *
+          24;
+        register_type = time_diff_in_days > 1 ? 'IN' : 'OUT';
+      }
+    }
+
     return await this.prismaService.register.create({
       data: {
         id: randomUUID(),
-        time,
+        time: time,
         register_type,
         user_id,
         created_at: new Date(),
@@ -58,7 +59,7 @@ export class RegisterService {
     });
   }
 
-  async update(id: string, { user: user_id, ...data }: UpdateRegisterDto) {
+  async update(id: string, { user_id, ...data }: UpdateRegisterDto) {
     return await this.prismaService.register.update({
       where: { id },
       data: {

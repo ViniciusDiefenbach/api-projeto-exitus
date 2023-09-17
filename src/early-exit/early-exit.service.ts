@@ -47,7 +47,7 @@ export class EarlyExitService {
   }
 
   remove(id: string) {
-    this.prismaService.earlyExit.delete({
+    return this.prismaService.earlyExit.delete({
       where: {
         id,
       }

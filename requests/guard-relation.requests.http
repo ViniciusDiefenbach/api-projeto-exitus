@@ -3,8 +3,8 @@ POST http://localhost:3000/guard-relation HTTP/1.1
 Content-Type: application/json
 
 {
-  "guarded": "4ba57b5c-df35-4bf3-a6cf-02f6a292a745",
-  "guardian": "718a27ae-608d-4097-b1ec-dbccb6953655"
+  "guarded_id": "20ef986c-4cce-45b3-b1b2-bb300f70eace",
+  "guardian_id": "1583706b-b94a-4186-924a-f5f531b2a85e"
 }
 
 ### 2. Get all guards relationship
