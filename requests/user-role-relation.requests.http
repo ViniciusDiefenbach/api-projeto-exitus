@@ -3,7 +3,7 @@ POST http://localhost:3000/user-role-relation HTTP/1.1
 Content-Type: application/json
 
 {
-  "user_id": "4ba57b5c-df35-4bf3-a6cf-02f6a292a745",
+  "user_id": "3a80a50a-acf0-4043-83fe-fa2938a6bdf8",
   "role_id": "718a27ae-608d-4097-b1ec-dbccb6953655"
 }
 

@@ -8,6 +8,7 @@ import { UserRoleRelationModule } from './user-role-relation/user-role-relation.
 import { GuardRelationModule } from './guard-relation/guard-relation.module';
 import { RegisterModule } from './register/register.module';
 import { EarlyExitModule } from './early-exit/early-exit.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { EarlyExitModule } from './early-exit/early-exit.module';
     GuardRelationModule,
     RegisterModule,
     EarlyExitModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

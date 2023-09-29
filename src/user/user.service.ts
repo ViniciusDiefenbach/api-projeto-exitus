@@ -12,7 +12,7 @@ export class UserService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly bcryptService: BcryptService,
-  ) {}
+  ) { }
 
   async create({ password, guardeds, roles, ...data }: CreateUserDto) {
     return await this.prismaService.user.create({
@@ -53,6 +53,10 @@ export class UserService {
 
   async findById(id: string) {
     return await this.prismaService.user.findUnique({ where: { id } });
+  }
+
+  findByEmail(email: string) {
+    return this.prismaService.user.findUnique({ where: { email } });
   }
 
   async update(id: string, { password, ...data }: UpdateUserDto) {

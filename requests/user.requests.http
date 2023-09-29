@@ -35,17 +35,7 @@ Content-Type: application/json
   "fingerprint": "john doe fingerprint",
   "enrollment": "john doe enrollment",
   "birth": "2005-01-01",
-  "shift": "MORNING",
-  "guardeds": [
-    {
-      "id": "2c892067-bf07-4ad6-afac-18d2eb1529cd"
-    }
-  ],
-  "roles": [
-    {
-      "id": "718a27ae-608d-4097-b1ec-dbccb6953655"
-    }
-  ]
+  "shift": "MORNING"
 }
 
 ### 2. Get all the users

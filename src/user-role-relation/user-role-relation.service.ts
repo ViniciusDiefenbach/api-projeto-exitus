@@ -52,6 +52,21 @@ export class UserRoleRelationService {
     });
   }
 
+  async findRolesByUserId(user_id: string) {
+    return await this.prismService.userRoleRelation.findMany({
+      select: {
+        role: {
+          select: {
+            role_type: true,
+          }
+        }
+      },
+      where: {
+        user_id
+      }
+    })
+  }
+
   async remove({ role: role_id, user: user_id }: DeleteUserRoleRelationDto) {
     return await this.prismService.userRoleRelation.delete({
       where: {

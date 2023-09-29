@@ -1,0 +1,16 @@
+###
+POST http://localhost:3000/auth HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "admin@mail.com",
+    "password": "admin"
+}
+
+###
+POST http://localhost:3000/auth/refresh-token HTTP/1.1
+Content-Type: application/json
+
+{
+    "refresh_token": "8bd9fd98-7efe-4760-8b79-3a45752b33e2"
+}
