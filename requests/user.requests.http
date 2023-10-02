@@ -55,6 +55,24 @@ Content-Type: application/json
 
 GET http://localhost:3000/user HTTP/1.1
 
+###
+GET http://localhost:3000/user?active=false HTTP/1.1
+
+###
+GET http://localhost:3000/user?limit=1 HTTP/1.1
+
+###
+GET http://localhost:3000/user?limit=1&page=1 HTTP/1.1
+
+###
+GET http://localhost:3000/user?name=John D HTTP/1.1
+
+###
+GET http://localhost:3000/user?email=johndoe@mail.co HTTP/1.1
+
+###
+GET http://localhost:3000/user?shift=MORNING HTTP/1.1
+
 ### 3. Get a user by id
 GET http://localhost:3000/user/<uuid> HTTP/1.1
 

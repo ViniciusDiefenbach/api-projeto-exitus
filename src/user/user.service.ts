@@ -30,11 +30,9 @@ export class UserService {
   }
 
   async findAll({ page, limit, active, shift, ...filter }: FindAllUserDto) {
-    const take = limit ? +limit : 8;
-    const skip = page ? take * +page : 0;
     return this.prismaService.user.findMany({
-      take,
-      skip,
+      take: limit,
+      skip: limit * page,
       where: {
         active,
         name: {

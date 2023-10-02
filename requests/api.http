@@ -1,2 +1,7 @@
 ### 1. Get a simple Hello World!
 GET http://localhost:3000 HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2Y1ZGQ4ZC01OWZiLTQ3ZmUtODM5Mi0wMDg0NjE3ZGQ0OWYiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2OTYyMjI2MjAsImV4cCI6MTY5NjIyMjY4MH0.--g5hrKWZMcfwkg3OL6ttXd2FHUBntcth_VcDcIsOSc
+
+### 1. Get a simple Hello World!
+GET http://localhost:3000 HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYTgwYTUwYS1hY2YwLTQwNDMtODNmZS1mYTI5MzhhNmJkZjgiLCJyb2xlIjoiRU1QTE9ZRUUiLCJpYXQiOjE2OTYyMjI1NjEsImV4cCI6MTY5NjIyMjYyMX0.yyGx5F6qd-kiaoUYorlMUv9OcOdGoIyquDttv-6XqaQ

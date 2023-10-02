@@ -6,7 +6,6 @@ import { JwtService } from '@nestjs/jwt';
 import { randomUUID } from 'crypto';
 import { RoleType } from '@prisma/client';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { access } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -51,25 +50,24 @@ export class AuthService {
         let choosedRole;
 
         if (role) {
-            choosedRole = user.roles.find((userRole) => {
+            user.roles.forEach((userRole) => {
                 if (userRole.role.role_type == role) {
                     choosedRole = role;
-                    return true;
                 }
-            })
+            })                                      
             if (!choosedRole) {
-                throw new BadRequestException('Usuário não possui permissão para acessar o sistema! 1')
+                throw new BadRequestException('O usuário não possui a função escolhida')
             }
         } else {
             if (user.roles.length != 1) {
-                throw new BadRequestException('Usuário não possui permissão para acessar o sistema!')
+                throw new BadRequestException('Usuário sem função definida ou com mais de uma função')
             }
             choosedRole = user.roles[0].role.role_type;
         }
 
         const access_token = this.jwtService.sign({
             sub: user.id,
-            role: choosedRole,
+            role: choosedRole as RoleType,
         }, {
             secret: "teste123",
             expiresIn: '60s'
@@ -106,8 +104,7 @@ export class AuthService {
             sub: token.user_id,
             role: token.choosed_role,
         }, {
-            secret: "teste123",
-            expiresIn: '60s'
+            secret: "teste123",expiresIn: "120s"
         })
 
         if (token.expires_at < new Date()) {

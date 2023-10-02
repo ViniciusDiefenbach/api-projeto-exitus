@@ -1,36 +1,26 @@
 import { Transform } from 'class-transformer';
 import {
-  IsBooleanString,
   IsEmail,
   IsEnum,
   IsInt,
-  IsNumberString,
   IsOptional,
-  IsPositive,
   IsString,
   MaxLength,
-  Min,
   MinLength,
 } from 'class-validator';
 
 export class FindAllUserDto {
   @IsOptional()
-  @IsString()
-  @IsNumberString()
+  @Transform(({ value }) => Number(value))
   @IsInt()
-  @IsPositive()
   page: number = 0;
 
   @IsOptional()
-  @IsString()
-  @IsNumberString()
+  @Transform(({ value }) => Number(value))
   @IsInt()
-  @IsPositive()
-  @Min(5)
-  limit?: number;
+  limit: number = 8;
 
   @IsOptional()
-  @IsBooleanString()
   @Transform(({ value }) => {
     switch (value) {
       case 'true':

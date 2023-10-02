@@ -9,6 +9,8 @@ import { GuardRelationModule } from './guard-relation/guard-relation.module';
 import { RegisterModule } from './register/register.module';
 import { EarlyExitModule } from './early-exit/early-exit.module';
 import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/auth.guard';
 
 @Module({
   imports: [
@@ -22,6 +24,9 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_GUARD,
+    useClass: AuthGuard,
+  }],
 })
 export class AppModule {}
