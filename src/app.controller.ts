@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard, Roles } from './auth/auth.guard';
 import { RoleType } from '@prisma/client';
@@ -11,5 +11,10 @@ export class AppController {
   @Roles(RoleType.ADMIN)
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Post('go/:id')
+  go(@Param('id') id: string) {
+    return id;
   }
 }
