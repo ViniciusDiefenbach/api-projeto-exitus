@@ -7,4 +7,4 @@ GET http://localhost:3000 HTTP/1.1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYTgwYTUwYS1hY2YwLTQwNDMtODNmZS1mYTI5MzhhNmJkZjgiLCJyb2xlIjoiRU1QTE9ZRUUiLCJpYXQiOjE2OTYyMjI1NjEsImV4cCI6MTY5NjIyMjYyMX0.yyGx5F6qd-kiaoUYorlMUv9OcOdGoIyquDttv-6XqaQ
 
 ### 2. Route to make a register by fingerprint
-POST http://localhost:3000/go/<uuid> HTTP/1.1
+POST http://localhost:3000/go/admin HTTP/1.1
