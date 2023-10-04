@@ -7,7 +7,7 @@ import { FindAllRegisterDto } from './dto/find-all-register.dto';
 
 @Injectable()
 export class RegisterService {
-  constructor(private readonly prismaService: PrismaService) { }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create({ time, regiter_type: r, user_id }: CreateRegisterDto) {
     let register_type = r;
@@ -17,16 +17,16 @@ export class RegisterService {
         orderBy: {
           time: 'desc',
         },
+        where: {
+          user_id,
+        },
       });
       if (!last_register) {
         register_type = 'IN';
       } else {
         const time_diff_in_days =
-          (new Date().getTime() - new Date(last_register.time).getTime()) *
-          1000 *
-          60 *
-          60 *
-          24;
+          (new Date().getTime() - new Date(last_register.time).getTime()) /
+          (1000 * 60 * 60 * 24);
         register_type = time_diff_in_days > 1 ? 'IN' : 'OUT';
       }
     }
