@@ -1,6 +1,6 @@
-import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { AuthGuard, Roles } from './auth/auth.guard';
+import { Roles } from './auth/auth.guard';
 import { RoleType } from '@prisma/client';
 
 @Controller()
@@ -13,8 +13,8 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post('go/:id')
-  go(@Param('id') id: string) {
-    return id;
+  @Post('go/:fingerprint')
+  go(@Param('fingerprint') fingerprint: string) {
+    return this.appService.go({ fingerprint });
   }
 }
