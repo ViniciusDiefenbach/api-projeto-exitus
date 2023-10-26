@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+<<<<<<< HEAD
 import { PrismaService } from './prisma/prisma.service';
 import { randomUUID } from "crypto"
 import { RegisterType } from '@prisma/client';
@@ -8,11 +9,20 @@ export class AppService {
   constructor(
     private readonly prismaService: PrismaService,
   ) { }
+=======
+import { randomUUID } from 'crypto';
+import { PrismaService } from './prisma/prisma.service';
+
+@Injectable()
+export class AppService {
+  constructor(private readonly prismaService: PrismaService) {}
+>>>>>>> a06ad2389f311ce7d57b5c685b4b9253b912f0b4
 
   getHello(): string {
     return 'Hello World!';
   }
 
+<<<<<<< HEAD
   async getLogsByUserId({ id, take, page }: { id: string, take: number, page: number }) {
     const logs = await this.prismaService.register.findMany({
       where: {
@@ -102,5 +112,37 @@ export class AppService {
         }
       }
     });
+=======
+  async go({ fingerprint }) {
+    const user = await this.prismaService.user.findUnique({
+      select: {
+        id: true,
+      },
+      where: {
+        fingerprint,
+      },
+    });
+
+    let register_type;
+    const { id: user_id } = user;
+    const last_register = await this.prismaService.register.findFirst({
+      take: 1,
+      orderBy: {
+        time: 'desc',
+      },
+      where: {
+        user_id,
+      },
+    });
+
+    if (!last_register) {
+      register_type = 'IN';
+    } else {
+      const time_diff_in_days =
+        (new Date().getTime() - new Date(last_register.time).getTime()) /
+        (1000 * 60 * 60 * 24);
+      register_type = time_diff_in_days > 1 ? 'IN' : 'OUT';
+    }
+>>>>>>> a06ad2389f311ce7d57b5c685b4b9253b912f0b4
   }
 }
