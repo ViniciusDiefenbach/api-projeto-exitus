@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { Body, Controller, Get, Patch, Post, Query, Request } from '@nestjs/common';
-=======
-import { Controller, Get, Param, Post } from '@nestjs/common';
->>>>>>> a06ad2389f311ce7d57b5c685b4b9253b912f0b4
 import { AppService } from './app.service';
 import { Roles } from './auth/auth.guard';
 import { RoleType } from '@prisma/client';
@@ -17,7 +13,6 @@ export class AppController {
     return this.appService.getHello();
   }
 
-<<<<<<< HEAD
   @Get('logs')
   @Roles(RoleType.ADMIN)
   getLogsByUserId(@Request() req, @Query() query) {
@@ -41,10 +36,4 @@ export class AppController {
     return this.appService.createAnRegisterByFingerprint(body.fingerprint);
   }
 
-=======
-  @Post('go/:fingerprint')
-  go(@Param('fingerprint') fingerprint: string) {
-    return this.appService.go({ fingerprint });
-  }
->>>>>>> a06ad2389f311ce7d57b5c685b4b9253b912f0b4
 }

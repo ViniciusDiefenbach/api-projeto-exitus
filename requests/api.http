@@ -2,7 +2,6 @@
 GET http://localhost:3000 HTTP/1.1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2Y1ZGQ4ZC01OWZiLTQ3ZmUtODM5Mi0wMDg0NjE3ZGQ0OWYiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2OTYyMjI2MjAsImV4cCI6MTY5NjIyMjY4MH0.--g5hrKWZMcfwkg3OL6ttXd2FHUBntcth_VcDcIsOSc
 
-<<<<<<< HEAD
 ### 2. Get log from user
 GET http://localhost:3000/logs?page=1 HTTP/1.1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5Y2Q0OTBkOC0yYzAwLTQ0MTYtYjg4My03MGU2YzRkMDliNDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2OTgyODYwNDYsImV4cCI6MTY5ODI4NjEwNn0.UoWutSFNC3toRaegyTiP0NZbLZxK71zFkHSXCsVlzj0
@@ -14,11 +13,3 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5Y2Q0OTBkO
 ### 3.2 Get user QR Code
 PATCH http://localhost:3000/refresh-code HTTP/1.1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5Y2Q0OTBkOC0yYzAwLTQ0MTYtYjg4My03MGU2YzRkMDliNDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE2OTgyODYyOTUsImV4cCI6MTY5ODI4NjM1NX0.UCO6vVZ7AVmpXGMOaOD0zO7cXQn7z1aGRpDfwEsk86E
-=======
-### 1. Get a simple Hello World!
-GET http://localhost:3000 HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYTgwYTUwYS1hY2YwLTQwNDMtODNmZS1mYTI5MzhhNmJkZjgiLCJyb2xlIjoiRU1QTE9ZRUUiLCJpYXQiOjE2OTYyMjI1NjEsImV4cCI6MTY5NjIyMjYyMX0.yyGx5F6qd-kiaoUYorlMUv9OcOdGoIyquDttv-6XqaQ
-
-### 2. Route to make a register by fingerprint
-POST http://localhost:3000/go/admin HTTP/1.1
->>>>>>> a06ad2389f311ce7d57b5c685b4b9253b912f0b4
