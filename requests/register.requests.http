@@ -10,9 +10,8 @@ POST http://localhost:3000/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "register_type": "IN",
     "time": "2021-08-01T00:00:00.000Z",
-    "user": "b0b0b0b0-b0b0-b0b0-b0b0-b0b0b0b0b0b0",
+    "user_id": "9cd490d8-2c00-4416-b883-70e6c4d09b45"
 }
 
 ### 2. Get all the registers

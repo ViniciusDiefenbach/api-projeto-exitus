@@ -10,7 +10,7 @@ export class CreateRegisterDto {
   @IsOptional()
   @IsString()
   @IsEnum(['IN', 'OUT'])
-  regiter_type?: 'IN' | 'OUT';
+  register_type?: 'IN' | 'OUT';
 
   @IsOptional()
   @Transform(({ value }) => new Date(value))

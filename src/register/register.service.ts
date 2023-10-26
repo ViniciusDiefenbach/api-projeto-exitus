@@ -9,25 +9,35 @@ import { FindAllRegisterDto } from './dto/find-all-register.dto';
 export class RegisterService {
   constructor(private readonly prismaService: PrismaService) { }
 
-  async create({ time, regiter_type: r, user_id }: CreateRegisterDto) {
+  async create({ time, register_type: r, user_id }: CreateRegisterDto) {
     let register_type = r;
     if (!r) {
       const last_register = await this.prismaService.register.findFirst({
         take: 1,
         orderBy: {
-          time: 'desc',
+          created_at: 'desc',
         },
+        where: {
+          user_id,
+        }
       });
       if (!last_register) {
         register_type = 'IN';
       } else {
-        const time_diff_in_days =
-          (new Date().getTime() - new Date(last_register.time).getTime()) *
-          1000 *
+        const now = new Date().getTime();
+        const last_register_time = last_register.created_at.getTime();
+        const day_in_miliseconds = 1000 *
           60 *
           60 *
           24;
-        register_type = time_diff_in_days > 1 ? 'IN' : 'OUT';
+        const time_diff_in_days = (now - last_register_time) / day_in_miliseconds;
+
+        if (time_diff_in_days > 1) {
+          register_type = 'IN';
+          console.log('more than 1 day');
+        } else {
+          register_type = last_register.register_type === 'IN' ? 'OUT' : 'IN';
+        }
       }
     }
 
