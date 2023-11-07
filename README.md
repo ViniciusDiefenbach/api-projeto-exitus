@@ -36,6 +36,13 @@ Don't forget to set up a .env file with DATABASE_URL (you can use the .env.examp
 $ npm install
 ```
 
+## Setting up the database
+
+```bash
+# create the database
+$ npx prisma migrate dev
+```
+
 ## Running the app
 
 ```bash
