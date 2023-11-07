@@ -5,7 +5,7 @@ import { RegisterType } from '@prisma/client';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) { }
 
   getHello(): string {
     return 'Hello World!';
@@ -32,10 +32,10 @@ export class AppService {
       },
     });
     console.log(user);
-    return `https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=${user.fingerprint}`;
+    return { fingerprint: user.fingerprint };
   }
 
-  async updateQRCodeByUserId(userId: string): Promise<string> {
+  async updateQRCodeByUserId(userId: string) {
     await this.prismaService.user.update({
       where: {
         id: userId,
@@ -44,7 +44,7 @@ export class AppService {
         fingerprint: randomUUID(),
       },
     });
-    return `QRCode from user ${userId} updated`;
+    return true;
   }
 
   async getGuardedsByUserId(userId: string) {
