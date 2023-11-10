@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { PrismaService } from './prisma/prisma.service';
-import { RegisterType } from '@prisma/client';
-import schedule from './config/schedule.json';
+import { RegisterType, RoleType, Shift } from '@prisma/client';
+import schedule from '../config/schedule.json';
 
 @Injectable()
 export class AppService {
@@ -69,6 +69,18 @@ export class AppService {
 
   async createAnRegisterByFingerprint(fingerprint) {
     const user = await this.prismaService.user.findUnique({
+      select: {
+        name: true,
+        roles: {
+          select: {
+            role: {
+              select: {
+                role_type: true,
+              },
+            },
+          },
+        },
+      },
       where: {
         fingerprint,
       },
@@ -77,8 +89,63 @@ export class AppService {
       throw new Error('User not found');
     }
 
-    let shift_time: 'MORNING' | 'AFTERNOON' | 'NIGHT';
+    // Checking if the user is coming or leaving
+    let register_type: RegisterType = RegisterType.IN;
     const now = new Date().getTime();
+    const last_register = await this.prismaService.register.findFirst({
+      take: 1,
+      orderBy: {
+        created_at: 'desc',
+      },
+      where: {
+        user: {
+          fingerprint,
+        },
+      },
+    });
+    if (last_register) {
+      const last_register_time = last_register.created_at.getTime();
+      const day_in_milliseconds = 1000 * 60 * 60 * 24;
+      const time_diff_in_days =
+        (now - last_register_time) / day_in_milliseconds;
+
+      if (time_diff_in_days < 1) {
+        register_type =
+          last_register.register_type === RegisterType.IN
+            ? RegisterType.OUT
+            : RegisterType.IN;
+      }
+    }
+    // Checking if the user is coming or leaving
+
+    if (user.roles.length < 1) {
+      throw new Error('User has no roles');
+    }
+
+    /*
+      Checking if the user is a guarded (student)
+        - If student, continues the algorithm (to check if the person can enter or exit)
+        - If !student, just create a register with the register_type
+    */
+    if (!user.roles.find((obj) => obj.role.role_type === RoleType.GUARDED)) {
+      return await this.prismaService.register.create({
+        data: {
+          id: randomUUID(),
+          time: new Date(),
+          register_type: register_type,
+          created_at: new Date(),
+          user: {
+            connect: {
+              fingerprint,
+            },
+          },
+        },
+      });
+    }
+    // Checking if the user is a guarded (student)
+
+    // Getting the current shift
+    let current_shift: Shift;
     const morning_start = new Date().setHours(
       schedule.morning.begin.hour,
       schedule.morning.begin.minute,
@@ -105,40 +172,17 @@ export class AppService {
     );
 
     if (now >= morning_start && now <= morning_end) {
-      shift_time = 'MORNING';
+      current_shift = Shift.MORNING;
     } else if (now >= afternoon_start && now <= afternoon_end) {
-      shift_time = 'AFTERNOON';
+      current_shift = Shift.AFTERNOON;
     } else if (now >= night_start && now <= night_end) {
-      shift_time = 'NIGHT';
-    } else {
-      throw new Error('Out of schedule');
+      current_shift = Shift.NIGHT;
     }
+    // Getting the current shift
 
     if (schedule.studentsCanComeAndGoOutsideClassHours) {
     }
-    let register_type = 'IN';
-    const last_register = await this.prismaService.register.findFirst({
-      take: 1,
-      orderBy: {
-        created_at: 'desc',
-      },
-      where: {
-        user: {
-          fingerprint,
-        },
-      },
-    });
-    if (last_register) {
-      const last_register_time = last_register.created_at.getTime();
-      const day_in_miliseconds = 1000 * 60 * 60 * 24;
-      const time_diff_in_days = (now - last_register_time) / day_in_miliseconds;
 
-      if (time_diff_in_days > 1) {
-        register_type = 'IN';
-      } else {
-        register_type = last_register.register_type === 'IN' ? 'OUT' : 'IN';
-      }
-    }
     return await this.prismaService.register.create({
       data: {
         id: randomUUID(),
