@@ -1,5 +1,6 @@
 {
-  "studentsCanComeAndGoOutsideClassHours": true,
+  "studentsCanEnterOutOfTheShift": true,
+  "minAgeToLeave": 18,
   "morning": {
     "begin": {
       "hour": 6,

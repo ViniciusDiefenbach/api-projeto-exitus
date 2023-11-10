@@ -71,6 +71,8 @@ export class AppService {
     const user = await this.prismaService.user.findUnique({
       select: {
         name: true,
+        shift: true,
+        birth: true,
         roles: {
           select: {
             role: {
@@ -85,8 +87,13 @@ export class AppService {
         fingerprint,
       },
     });
+
     if (!user) {
       throw new Error('User not found');
+    }
+
+    if (user.roles.length < 1) {
+      throw new Error('User has no roles');
     }
 
     // Checking if the user is coming or leaving
@@ -118,16 +125,15 @@ export class AppService {
     }
     // Checking if the user is coming or leaving
 
-    if (user.roles.length < 1) {
-      throw new Error('User has no roles');
-    }
-
     /*
-      Checking if the user is a guarded (student)
-        - If student, continues the algorithm (to check if the person can enter or exit)
+      Checking if the user is not only a guarded (student)
         - If !student, just create a register with the register_type
+        - If student, continues the algorithm (to check if the person can enter or exit)
     */
-    if (!user.roles.find((obj) => obj.role.role_type === RoleType.GUARDED)) {
+    if (
+      !user.roles.find((obj) => obj.role.role_type === RoleType.GUARDED) ||
+      user.roles.length > 1
+    ) {
       return await this.prismaService.register.create({
         data: {
           id: randomUUID(),
@@ -142,7 +148,7 @@ export class AppService {
         },
       });
     }
-    // Checking if the user is a guarded (student)
+    // Checking if the user is not only a guarded (student)
 
     // Getting the current shift
     let current_shift: Shift;
@@ -180,8 +186,35 @@ export class AppService {
     }
     // Getting the current shift
 
-    if (schedule.studentsCanComeAndGoOutsideClassHours) {
+    // Checking if the student can enter (configurable in schedule.json)
+    if (
+      !schedule.studentsCanEnterOutOfTheShift &&
+      register_type === RegisterType.IN &&
+      current_shift !== user.shift
+    ) {
+      throw new Error('Students can only enter in their shift');
     }
+    // Checking if the student can enter (configurable in schedule.json)
+
+    // Get the age of the student
+    const today = new Date();
+    const birthDate = new Date(user.birth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const month = today.getMonth() - birthDate.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    // Get the age of the student
+
+    // TODO: Check if the student have a early exit authorization!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    // Checking if the student can exit (minimum age is configurable in schedule.json)
+    if (register_type === RegisterType.OUT && age < schedule.minAgeToLeave) {
+      throw new Error(
+        'Students can only exit, in class hours, with more than 18 years old',
+      );
+    }
+    // Checking if the student can exit (minimum age is configurable in schedule.json)
 
     return await this.prismaService.register.create({
       data: {
