@@ -4,6 +4,7 @@ import { UpdateRegisterDto } from './dto/update-register.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { randomUUID } from 'crypto';
 import { FindAllRegisterDto } from './dto/find-all-register.dto';
+import { RegisterType } from '@prisma/client';
 
 @Injectable()
 export class RegisterService {
@@ -26,11 +27,9 @@ export class RegisterService {
       } else {
         const now = new Date().getTime();
         const last_register_time = last_register.created_at.getTime();
-        const day_in_miliseconds = 1000 *
-          60 *
-          60 *
-          24;
-        const time_diff_in_days = (now - last_register_time) / day_in_miliseconds;
+        const day_in_miliseconds = 1000 * 60 * 60 * 24;
+        const time_diff_in_days =
+          (now - last_register_time) / day_in_miliseconds;
 
         if (time_diff_in_days > 1) {
           register_type = 'IN';
@@ -41,23 +40,46 @@ export class RegisterService {
       }
     }
 
-    return await this.prismaService.register.create({
+    const new_register = await this.prismaService.register.create({
       data: {
-        id: randomUUID(),
         time: time,
         register_type,
         user_id,
-        created_at: new Date(),
       },
     });
+
+    new_register.time = new_register.time;
+
+    return new_register;
   }
 
-  async findAll({ limit, page }: FindAllRegisterDto) {
-    const take = limit ? +limit : 8;
-    const skip = page ? take * +page : 0;
+  async findAll({
+    limit,
+    page,
+    register_type,
+    start_time,
+    end_time,
+    user_id,
+  }: FindAllRegisterDto) {
     return await this.prismaService.register.findMany({
-      take,
-      skip,
+      take: limit,
+      skip: limit * page,
+      where: {
+        AND: [
+          {
+            register_type: register_type as RegisterType,
+          },
+          {
+            user_id,
+          },
+          {
+            time: {
+              gte: start_time,
+              lte: end_time,
+            },
+          },
+        ],
+      },
     });
   }
 

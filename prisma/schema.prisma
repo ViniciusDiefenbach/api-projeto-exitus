@@ -3,59 +3,58 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id            String             @id @db.Char(37)
+  id            String             @id @default(uuid())
   active        Boolean
   name          String
   email         String             @unique
   password      String
   fingerprint   String             @unique
   enrollment    String?            @unique
-  birth         DateTime?
+  birth         DateTime?          @db.Date
   shift         Shift?
-  created_at     DateTime
-  updated_at     DateTime           @updatedAt
+  created_at    DateTime           @default(now())
+  updated_at    DateTime           @updatedAt
   guardeds      GuardRelation[]    @relation("guardians")
   guardians     GuardRelation[]    @relation("guardeds")
   roles         UserRoleRelation[]
   registers     Register[]
-  email_token   EmailToken[]
   refresh_token RefreshToken[]
 
   @@map("users")
 }
 
 model UserRoleRelation {
-  user      User     @relation(fields: [user_id], references: [id])
-  user_id   String   @db.Char(37)
-  role      Role     @relation(fields: [role_id], references: [id])
-  role_id   String   @db.Char(37)
-  created_at DateTime
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  role       Role     @relation(fields: [role_id], references: [id])
+  role_id    String
+  created_at DateTime @default(now())
 
   @@id([user_id, role_id])
   @@map("user_role_relations")
 }
 
 model Role {
-  id        String             @id @db.Char(37)
-  role_type RoleType           @unique
-  created_at DateTime
+  id         String             @id @default(uuid())
+  role_type  RoleType           @unique
+  created_at DateTime           @default(now())
   updated_at DateTime           @updatedAt
-  users     UserRoleRelation[]
+  users      UserRoleRelation[]
 
   @@map("roles")
 }
 
 model GuardRelation {
   guarded     User        @relation("guardeds", fields: [guarded_id], references: [id])
-  guarded_id  String      @db.Char(37)
+  guarded_id  String
   guardian    User        @relation("guardians", fields: [guardian_id], references: [id])
-  guardian_id String      @db.Char(37)
-  created_at   DateTime
+  guardian_id String
+  created_at  DateTime    @default(now())
   early_exits EarlyExit[]
 
   @@id([guarded_id, guardian_id])
@@ -63,48 +62,38 @@ model GuardRelation {
 }
 
 model EarlyExit {
-  id             String        @id @db.Char(37)
-  start_at       DateTime
-  end_at         DateTime
-  time           DateTime
-  created_at      DateTime
-  updated_at      DateTime      @updatedAt
+  id             String        @id @default(uuid())
+  start_at       DateTime      @default(now()) @db.Date
+  end_at         DateTime      @db.Date
+  time           DateTime      @db.Time()
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
   guard_relation GuardRelation @relation(fields: [guarded_id, guardian_id], references: [guarded_id, guardian_id])
-  guarded_id     String        @db.Char(37)
-  guardian_id    String        @db.Char(37)
+  guarded_id     String
+  guardian_id    String
 
   @@map("early_exits")
 }
 
 model Register {
-  id            String       @id @db.Char(37)
+  id            String       @id @default(uuid())
   register_type RegisterType
-  time          DateTime
-  created_at     DateTime
-  updated_at     DateTime     @updatedAt
+  time          DateTime     @db.Timestamp()
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
   user          User         @relation(fields: [user_id], references: [id])
-  user_id       String       @db.Char(37)
+  user_id       String
 
   @@map("registers")
 }
 
-model EmailToken {
-  id         String   @id @db.Char(37)
-  created_at  DateTime
-  expires_at DateTime
-  user       User     @relation(fields: [user_id], references: [id])
-  user_id    String   @db.Char(37)
-
-  @@map("email_tokens")
-}
-
 model RefreshToken {
-  id         String   @id @db.Char(37)
-  created_at  DateTime
-  expires_at DateTime
+  id           String   @id @default(uuid())
+  created_at   DateTime @default(now())
+  expires_at   DateTime @db.Timestamp()
   choosed_role RoleType
-  user       User     @relation(fields: [user_id], references: [id])
-  user_id    String   @db.Char(37)
+  user         User     @relation(fields: [user_id], references: [id])
+  user_id      String
 
   @@map("refresh_tokens")
 }

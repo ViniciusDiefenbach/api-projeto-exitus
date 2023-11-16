@@ -1,15 +1,39 @@
-import { IsInt, IsNumber, IsOptional, IsPositive } from "class-validator";
+import { Transform } from 'class-transformer';
+import {
+  IsDate,
+  IsDateString,
+  IsEnum,
+  IsInt,
+  IsOptional,
+  IsUUID,
+} from 'class-validator';
 
 export class FindAllRegisterDto {
   @IsOptional()
-  @IsNumber()
+  @Transform(({ value }) => Number(value))
   @IsInt()
-  @IsPositive()
-  page?: number;
+  page: number = 0;
 
   @IsOptional()
-  @IsNumber()
+  @Transform(({ value }) => Number(value))
   @IsInt()
-  @IsPositive()
-  limit?: number;
+  limit: number = 8;
+
+  @IsOptional()
+  @IsEnum(['IN', 'OUT'])
+  register_type?: string;
+
+  @IsOptional()
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
+  start_time?: Date;
+
+  @IsOptional()
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
+  end_time?: Date;
+
+  @IsOptional()
+  @IsUUID()
+  user_id?: string;
 }

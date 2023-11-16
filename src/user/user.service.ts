@@ -12,19 +12,17 @@ export class UserService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly bcryptService: BcryptService,
-  ) { }
+  ) {}
 
   async create({ password, guardeds, roles, ...data }: CreateUserDto) {
     return await this.prismaService.user.create({
       data: {
-        id: randomUUID(),
         password: password
           ? await this.bcryptService.hash({ password })
-          : randomUUID(),
+          : await this.bcryptService.hash({ password: randomUUID() }),
         guardeds: adptCreateMany({ array: guardeds, key: 'guarded_id' }),
         roles: adptCreateMany({ array: roles, key: 'role_id' }),
         ...data,
-        created_at: new Date(),
       },
     });
   }

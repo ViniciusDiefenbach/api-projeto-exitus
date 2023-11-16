@@ -180,15 +180,10 @@ export class AppService {
     }
     // Getting the current shift
 
-    if (schedule.studentsCanComeAndGoOutsideClassHours) {
-    }
-
     return await this.prismaService.register.create({
       data: {
-        id: randomUUID(),
         time: new Date(),
         register_type: register_type as RegisterType,
-        created_at: new Date(),
         user: {
           connect: {
             fingerprint,

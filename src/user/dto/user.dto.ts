@@ -13,14 +13,14 @@ import {
 import { randomUUID } from 'crypto';
 
 export class UserDto {
-  @IsBoolean()
   @IsOptional()
+  @IsBoolean()
   active: boolean = true;
 
-  @MaxLength(100)
-  @MinLength(5)
   @IsNotEmpty()
   @IsString()
+  @MaxLength(100)
+  @MinLength(5)
   name: string;
 
   @IsNotEmpty()
@@ -38,7 +38,7 @@ export class UserDto {
 
   @IsOptional()
   @IsString()
-  fingerprint: string = randomUUID();
+  fingerprint: string;
 
   @IsOptional()
   @IsString()

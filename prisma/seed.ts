@@ -58,11 +58,11 @@ async function main() {
           role: {
             connect: {
               role_type: 'ADMIN',
-            }
+            },
           },
           created_at: new Date(),
-        }
-      }
+        },
+      },
     },
   });
   console.log('The admin was created successfully!');
