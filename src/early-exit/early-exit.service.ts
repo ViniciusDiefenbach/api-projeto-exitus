@@ -54,9 +54,19 @@ export class EarlyExitService {
             ],
           },
           {
-            end_at: {
-              gte: end_at,
-            },
+            OR: [
+              {
+                end_at: {
+                  gte: start_at,
+                  lte: end_at,
+                },
+              },
+              {
+                end_at: {
+                  gte: end_at,
+                },
+              },
+            ],
           },
         ],
       },
