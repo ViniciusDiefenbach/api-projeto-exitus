@@ -70,6 +70,7 @@ export class AppService {
   async createAnRegisterByFingerprint(fingerprint) {
     const user = await this.prismaService.user.findUnique({
       select: {
+        id: true,
         name: true,
         shift: true,
         birth: true,
@@ -98,7 +99,7 @@ export class AppService {
 
     // Checking if the user is coming or leaving
     let register_type: RegisterType = RegisterType.IN;
-    const now = new Date().getTime();
+    const now = new Date();
     const last_register = await this.prismaService.register.findFirst({
       take: 1,
       orderBy: {
@@ -114,7 +115,7 @@ export class AppService {
       const last_register_time = last_register.created_at.getTime();
       const day_in_milliseconds = 1000 * 60 * 60 * 24;
       const time_diff_in_days =
-        (now - last_register_time) / day_in_milliseconds;
+        (now.getTime() - last_register_time) / day_in_milliseconds;
 
       if (time_diff_in_days < 1) {
         register_type =
@@ -136,10 +137,7 @@ export class AppService {
     ) {
       return await this.prismaService.register.create({
         data: {
-          id: randomUUID(),
-          time: new Date(),
           register_type: register_type,
-          created_at: new Date(),
           user: {
             connect: {
               fingerprint,
@@ -177,11 +175,14 @@ export class AppService {
       schedule.night.end.minute,
     );
 
-    if (now >= morning_start && now <= morning_end) {
+    if (now.getTime() >= morning_start && now.getTime() <= morning_end) {
       current_shift = Shift.MORNING;
-    } else if (now >= afternoon_start && now <= afternoon_end) {
+    } else if (
+      now.getTime() >= afternoon_start &&
+      now.getTime() <= afternoon_end
+    ) {
       current_shift = Shift.AFTERNOON;
-    } else if (now >= night_start && now <= night_end) {
+    } else if (now.getTime() >= night_start && now.getTime() <= night_end) {
       current_shift = Shift.NIGHT;
     }
     // Getting the current shift
@@ -197,19 +198,65 @@ export class AppService {
     // Checking if the student can enter (configurable in schedule.json)
 
     // Get the age of the student
-    const today = new Date();
     const birthDate = new Date(user.birth);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const month = today.getMonth() - birthDate.getMonth();
-    if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+    let age = now.getFullYear() - birthDate.getFullYear();
+    const month = now.getMonth() - birthDate.getMonth();
+    if (month < 0 || (month === 0 && now.getDate() < birthDate.getDate())) {
       age--;
     }
     // Get the age of the student
 
-    // TODO: Check if the student have a early exit authorization!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Check if the student have a early exit
+    const early_exits = await this.prismaService.earlyExit.findMany({
+      where: {
+        AND: [
+          {
+            start_at: {
+              lte: new Date(),
+            },
+          },
+          {
+            end_at: {
+              gte: new Date(),
+            },
+          },
+          {
+            guarded_id: user.id,
+          },
+        ],
+      },
+    });
+    // Check if the student have a early exit
 
     // Checking if the student can exit (minimum age is configurable in schedule.json)
     if (register_type === RegisterType.OUT && age < schedule.minAgeToLeave) {
+      if (early_exits.length > 0) {
+        const validEarlyExit = early_exits.find((e_e) => {
+          if (now.getHours() > e_e.time.getHours()) {
+            return true;
+          } else if (
+            now.getHours() === e_e.time.getHours() &&
+            now.getMinutes() >= e_e.time.getMinutes()
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+
+        if (validEarlyExit) {
+          return await this.prismaService.register.create({
+            data: {
+              register_type: register_type as RegisterType,
+              user: {
+                connect: {
+                  fingerprint,
+                },
+              },
+            },
+          });
+        }
+      }
       throw new Error(
         'Students can only exit, in class hours, with more than 18 years old',
       );
@@ -218,7 +265,6 @@ export class AppService {
 
     return await this.prismaService.register.create({
       data: {
-        time: new Date(),
         register_type: register_type as RegisterType,
         user: {
           connect: {
