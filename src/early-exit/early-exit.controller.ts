@@ -1,9 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { EarlyExitService } from './early-exit.service';
 import { CreateEarlyExitDto } from './dto/create-early-exit.dto';
 import { UpdateEarlyExitDto } from './dto/update-early-exit.dto';
 import { FindAllEarlyExitDto } from './dto/find-all-early-exit.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('early-exit')
 @Controller('early-exit')
 export class EarlyExitController {
   constructor(private readonly earlyExitService: EarlyExitService) {}
@@ -24,7 +35,10 @@ export class EarlyExitController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEarlyExitDto: UpdateEarlyExitDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateEarlyExitDto: UpdateEarlyExitDto,
+  ) {
     return this.earlyExitService.update(id, updateEarlyExitDto);
   }
 
