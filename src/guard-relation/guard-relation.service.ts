@@ -8,15 +8,11 @@ import { DeleteGuardRelationDto } from './dto/delete-guard-relation.dto';
 export class GuardRelationService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create({
-    guarded_id,
-    guardian_id
-  }: CreateGuardRelationDto) {
+  async create({ guarded_id, guardian_id }: CreateGuardRelationDto) {
     return await this.prismaService.guardRelation.create({
       data: {
         guarded_id,
         guardian_id,
-        created_at: new Date(),
       },
     });
   }

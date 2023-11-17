@@ -1,11 +1,19 @@
-import { Body, Controller, Get, Patch, Post, Query, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  Query,
+  Request,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { Roles } from './auth/auth.guard';
 import { RoleType } from '@prisma/client';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) { }
+  constructor(private readonly appService: AppService) {}
 
   @Get()
   @Roles(RoleType.ADMIN)
@@ -16,7 +24,11 @@ export class AppController {
   @Get('logs')
   @Roles(RoleType.ADMIN)
   getLogsByUserId(@Request() req, @Query() query) {
-    return this.appService.getLogsByUserId({ "id": req.user.id, "take": query.take, "page": query.page });
+    return this.appService.getLogsByUserId({
+      id: req.user.id,
+      take: query.take,
+      page: query.page,
+    });
   }
 
   @Get('code')
@@ -31,9 +43,8 @@ export class AppController {
     return this.appService.updateQRCodeByUserId(req.user.sub);
   }
 
-  @Post('register')
+  @Post('make-a-register')
   createAnRegisterByFingerprint(@Body() body) {
     return this.appService.createAnRegisterByFingerprint(body.fingerprint);
   }
-
 }

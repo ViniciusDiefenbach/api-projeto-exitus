@@ -218,10 +218,8 @@ export class AppService {
 
     return await this.prismaService.register.create({
       data: {
-        id: randomUUID(),
         time: new Date(),
         register_type: register_type as RegisterType,
-        created_at: new Date(),
         user: {
           connect: {
             fingerprint,

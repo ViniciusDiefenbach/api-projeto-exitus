@@ -15,6 +15,21 @@ Content-Type: application/json
 ### Get all early exits (paged)
 GET http://localhost:3000/early-exit HTTP/1.1
 
+###
+GET http://localhost:3000/early-exit?guarded_id=7111ce04-9632-4c40-8038-a8845992b404 HTTP/1.1
+
+###
+GET http://localhost:3000/early-exit?guardian_id=9469f9d2-1cee-4828-9c9d-eada66a93e8f HTTP/1.1
+
+###
+GET http://localhost:3000/early-exit?guardian_id=9469f9d2-1cee-4828-9c9d-eada66a93e8f&guarded_id=7111ce04-9632-4c40-8038-a8845992b404 HTTP/1.1
+
+###
+GET http://localhost:3000/early-exit?start_at=2010-08-02T00:00:00.000&end_at=2020-01-01T00:00:00.000Z HTTP/1.1
+
+###
+GET http://localhost:3000/early-exit?start_time=2020-08-02T13:00:00.000Z&end_time=2022-08-02T13:30:00.00Z HTTP/1.1
+
 ### Get early exit by id
 GET http://localhost:3000/early-exit/<uuid> HTTP/1.1
 
