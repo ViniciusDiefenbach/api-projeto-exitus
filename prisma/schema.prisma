@@ -78,7 +78,7 @@ model EarlyExit {
 model Register {
   id            String       @id @default(uuid())
   register_type RegisterType
-  time          DateTime     @db.Timestamp()
+  time          DateTime     @default(now()) @db.Timestamp()
   created_at    DateTime     @default(now())
   updated_at    DateTime     @updatedAt
   user          User         @relation(fields: [user_id], references: [id])
