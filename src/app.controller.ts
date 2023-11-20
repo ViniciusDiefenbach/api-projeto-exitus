@@ -15,16 +15,9 @@ import { RoleType } from '@prisma/client';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  @Roles(RoleType.ADMIN)
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
   @Get('logs')
-  @Roles(RoleType.ADMIN)
-  getLogsByUserId(@Request() req, @Query() query) {
-    return this.appService.getLogsByUserId({
+  getRegistersByUserId(@Request() req, @Query() query) {
+    return this.appService.getRegistersByUserId({
       id: req.user.id,
       take: query.take,
       page: query.page,
@@ -32,15 +25,14 @@ export class AppController {
   }
 
   @Get('code')
-  @Roles(RoleType.ADMIN)
-  getQRCodeByUserId(@Request() req) {
-    return this.appService.getQRCodeByUserId(req.user.sub);
+  getFingerprintByUserId(@Request() req) {
+    return this.appService.getFingerprintByUserId(req.user.sub);
   }
 
   @Patch('refresh-code')
   @Roles(RoleType.ADMIN)
-  updateQRCodeByUserId(@Request() req) {
-    return this.appService.updateQRCodeByUserId(req.user.sub);
+  updateFingerprintByUserId(@Request() req) {
+    return this.appService.updateFingerprintByUserId(req.user.sub);
   }
 
   @Post('make-a-register')

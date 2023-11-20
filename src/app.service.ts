@@ -8,11 +8,7 @@ import schedule from '../config/schedule.json';
 export class AppService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  getHello(): string {
-    return 'Hello World!';
-  }
-
-  async getLogsByUserId({
+  async getRegistersByUserId({
     id,
     take,
     page,
@@ -21,7 +17,7 @@ export class AppService {
     take: number;
     page: number;
   }) {
-    const logs = await this.prismaService.register.findMany({
+    const registers = await this.prismaService.register.findMany({
       where: {
         user_id: id,
       },
@@ -31,10 +27,10 @@ export class AppService {
         created_at: 'desc',
       },
     });
-    return { logs, count: logs.length };
+    return { registers, count: registers.length };
   }
 
-  async getQRCodeByUserId(id: string) {
+  async getFingerprintByUserId(id: string) {
     const user = await this.prismaService.user.findUnique({
       where: {
         id: id,
@@ -44,7 +40,7 @@ export class AppService {
     return { fingerprint: user.fingerprint };
   }
 
-  async updateQRCodeByUserId(userId: string) {
+  async updateFingerprintByUserId(userId: string) {
     await this.prismaService.user.update({
       where: {
         id: userId,
@@ -59,7 +55,15 @@ export class AppService {
   async getGuardedsByUserId(userId: string) {
     return await this.prismaService.guardRelation.findMany({
       select: {
-        guarded: true,
+        guarded: {
+          select: {
+            id: true,
+            name: true,
+            shift: true,
+            birth: true,
+            fingerprint: true,
+          },
+        },
       },
       where: {
         guardian_id: userId,
@@ -244,22 +248,12 @@ export class AppService {
           }
         });
 
-        if (validEarlyExit) {
-          return await this.prismaService.register.create({
-            data: {
-              register_type: register_type as RegisterType,
-              user: {
-                connect: {
-                  fingerprint,
-                },
-              },
-            },
-          });
+        if (!validEarlyExit) {
+          throw new Error(
+            'Students can only exit, in class hours, with more than 18 years old',
+          );
         }
       }
-      throw new Error(
-        'Students can only exit, in class hours, with more than 18 years old',
-      );
     }
     // Checking if the student can exit (minimum age is configurable in schedule.json)
 
