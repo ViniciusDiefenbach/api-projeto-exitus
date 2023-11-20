@@ -1,12 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsInt,
-  IsNumber,
-  IsOptional,
-  IsPositive,
-  IsString,
-  IsUUID,
-} from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
 import { randomUUID } from 'crypto';
 
 export class FindAllUserRoleRelationDto {
@@ -16,10 +10,9 @@ export class FindAllUserRoleRelationDto {
     required: false,
   })
   @IsOptional()
-  @IsNumber()
+  @Transform(({ value }) => Number(value))
   @IsInt()
-  @IsPositive()
-  page?: number;
+  page?: number = 0;
 
   @ApiProperty({
     example: 10,
@@ -27,10 +20,9 @@ export class FindAllUserRoleRelationDto {
     required: false,
   })
   @IsOptional()
-  @IsNumber()
+  @Transform(({ value }) => Number(value))
   @IsInt()
-  @IsPositive()
-  limit?: number;
+  limit?: number = 8;
 
   @ApiProperty({
     example: randomUUID(),

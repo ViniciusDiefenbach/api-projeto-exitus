@@ -23,11 +23,9 @@ export class GuardRelationService {
     guarded: guarded_id,
     guardian: guardian_id,
   }: FindAllGuardRelationDto) {
-    const take = limit ? +limit : 8;
-    const skip = page ? take * +page : 0;
     return await this.prismaService.guardRelation.findMany({
-      skip,
-      take,
+      take: limit,
+      skip: limit * page,
       select: {
         guarded: {
           select: {

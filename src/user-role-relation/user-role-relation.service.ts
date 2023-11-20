@@ -23,11 +23,9 @@ export class UserRoleRelationService {
     role: role_id,
     user: user_id,
   }: FindAllUserRoleRelationDto) {
-    const take = limit ? +limit : 8;
-    const skip = page ? take * +page : 0;
     return await this.prismService.userRoleRelation.findMany({
-      take,
-      skip,
+      take: limit,
+      skip: limit * page,
       select: {
         role_id: false,
         user_id: false,
