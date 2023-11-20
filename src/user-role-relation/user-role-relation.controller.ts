@@ -5,7 +5,9 @@ import { FindAllUserRoleRelationDto } from './dto/find-all-user-role-relation.dt
 import { DeleteUserRoleRelationDto } from './dto/delete-user-role-relation.dto';
 import { Roles } from '@/auth/auth.guard';
 import { RoleType } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('user-role-relation')
 @Controller('user-role-relation')
 @Roles(RoleType.ADMIN)
 export class UserRoleRelationController {

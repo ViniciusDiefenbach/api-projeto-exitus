@@ -2,7 +2,9 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { Roles } from '@/auth/auth.guard';
 import { RoleType } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('role')
 @Controller('role')
 @Roles(RoleType.ADMIN)
 export class RoleController {

@@ -5,7 +5,9 @@ import { FindAllGuardRelationDto } from './dto/find-all-guard-relation.dto';
 import { DeleteGuardRelationDto } from './dto/delete-guard-relation.dto';
 import { Roles } from '@/auth/auth.guard';
 import { RoleType } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('guard-relation')
 @Controller('guard-relation')
 @Roles(RoleType.ADMIN)
 export class GuardRelationController {

@@ -14,7 +14,9 @@ import { UpdateRegisterDto } from './dto/update-register.dto';
 import { FindAllRegisterDto } from './dto/find-all-register.dto';
 import { Roles } from '@/auth/auth.guard';
 import { RoleType } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('register')
 @Controller('register')
 export class RegisterController {
   constructor(private readonly registerService: RegisterService) {}

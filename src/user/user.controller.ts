@@ -14,7 +14,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { FindAllUserDto } from './dto/find-all-user.dto';
 import { RoleType } from '@prisma/client';
 import { Roles } from '@/auth/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('user')
 @Controller('user')
 @Roles(RoleType.ADMIN)
 export class UserController {
