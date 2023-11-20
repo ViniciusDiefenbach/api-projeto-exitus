@@ -3,8 +3,11 @@ import { UserRoleRelationService } from './user-role-relation.service';
 import { CreateUserRoleRelationDto } from './dto/create-user-role-relation.dto';
 import { FindAllUserRoleRelationDto } from './dto/find-all-user-role-relation.dto';
 import { DeleteUserRoleRelationDto } from './dto/delete-user-role-relation.dto';
+import { Roles } from '@/auth/auth.guard';
+import { RoleType } from '@prisma/client';
 
 @Controller('user-role-relation')
+@Roles(RoleType.ADMIN)
 export class UserRoleRelationController {
   constructor(
     private readonly userRoleRelationService: UserRoleRelationService,

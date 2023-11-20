@@ -1,7 +1,10 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { RoleService } from './role.service';
+import { Roles } from '@/auth/auth.guard';
+import { RoleType } from '@prisma/client';
 
 @Controller('role')
+@Roles(RoleType.ADMIN)
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 

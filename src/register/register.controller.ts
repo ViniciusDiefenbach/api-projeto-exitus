@@ -12,14 +12,17 @@ import { RegisterService } from './register.service';
 import { CreateRegisterDto } from './dto/create-register.dto';
 import { UpdateRegisterDto } from './dto/update-register.dto';
 import { FindAllRegisterDto } from './dto/find-all-register.dto';
+import { Roles } from '@/auth/auth.guard';
+import { RoleType } from '@prisma/client';
 
 @Controller('register')
 export class RegisterController {
   constructor(private readonly registerService: RegisterService) {}
 
   @Post()
+  @Roles(RoleType.ADMIN)
   create(@Body() createRegisterDto: CreateRegisterDto) {
-    console.log(createRegisterDto)
+    console.log(createRegisterDto);
     return this.registerService.create(createRegisterDto);
   }
 

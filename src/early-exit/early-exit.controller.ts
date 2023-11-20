@@ -13,9 +13,12 @@ import { CreateEarlyExitDto } from './dto/create-early-exit.dto';
 import { UpdateEarlyExitDto } from './dto/update-early-exit.dto';
 import { FindAllEarlyExitDto } from './dto/find-all-early-exit.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Roles } from '@/auth/auth.guard';
+import { RoleType } from '@prisma/client';
 
 @ApiTags('early-exit')
 @Controller('early-exit')
+@Roles(RoleType.ADMIN)
 export class EarlyExitController {
   constructor(private readonly earlyExitService: EarlyExitService) {}
 

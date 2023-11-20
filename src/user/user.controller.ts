@@ -12,8 +12,11 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FindAllUserDto } from './dto/find-all-user.dto';
+import { RoleType } from '@prisma/client';
+import { Roles } from '@/auth/auth.guard';
 
 @Controller('user')
+@Roles(RoleType.ADMIN)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
