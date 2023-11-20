@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { hash } from 'bcrypt';
+import admin_seed from '../config/admin_seed.json';
 
 const prisma = new PrismaClient();
 
@@ -43,15 +44,15 @@ async function main() {
   });
   console.log('The roles were created successfully!');
   await prisma.user.upsert({
-    where: { email: 'admin@mail.com' },
+    where: { email: admin_seed.admin_login_email },
     update: {},
     create: {
       id: randomUUID(),
       active: true,
-      name: 'Admin',
-      email: 'admin@mail.com',
-      fingerprint: 'admin',
-      password: await hash('admin', 10),
+      name: admin_seed.admin_login_name,
+      email: admin_seed.admin_login_email,
+      fingerprint: admin_seed.admin_login_fingerprint ?? randomUUID(),
+      password: await hash(admin_seed.admin_login_password, 10),
       created_at: new Date(),
       roles: {
         create: {
