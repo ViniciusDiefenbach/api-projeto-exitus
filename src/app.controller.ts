@@ -11,6 +11,7 @@ import { AppService } from './app.service';
 import { Roles } from './auth/auth.guard';
 import { RoleType } from '@prisma/client';
 
+@Roles(RoleType.ADMIN, RoleType.EMPLOYEE, RoleType.GUARDED, RoleType.GUARDIAN)
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
