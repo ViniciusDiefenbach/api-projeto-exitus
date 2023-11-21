@@ -11,32 +11,50 @@ import { AppService } from './app.service';
 import { Roles } from './auth/auth.guard';
 import { RoleType } from '@prisma/client';
 
-@Roles(RoleType.ADMIN, RoleType.EMPLOYEE, RoleType.GUARDED, RoleType.GUARDIAN)
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('logs')
-  getRegistersByUserId(@Request() req, @Query() query) {
+  @Roles(RoleType.EMPLOYEE, RoleType.GUARDED, RoleType.GUARDIAN)
+  @Get('my-registers')
+  async getRegistersByUserId(@Request() req, @Query() query) {
     return this.appService.getRegistersByUserId({
-      id: req.user.id,
+      id: req.user.sub,
       take: query.take,
       page: query.page,
     });
   }
 
-  @Get('code')
+  @Roles(RoleType.GUARDIAN)
+  @Get('my-guardeds')
+  getGuardedsByUserId(@Request() req) {
+    return this.appService.getGuardedsByUserId(req.user.sub);
+  }
+
+  @Roles(RoleType.GUARDIAN)
+  @Get('my-guarded-registers')
+  getGuardedRegistersByUserId(@Request() req, @Query() query) {
+    return this.appService.getGuardedRegistersByUserId({
+      guardian: req.user.sub,
+      guarded: query.guarded,
+      take: query.take,
+      page: query.page,
+    });
+  }
+
+  @Roles(RoleType.EMPLOYEE, RoleType.GUARDED, RoleType.GUARDIAN)
+  @Get('my-code')
   getFingerprintByUserId(@Request() req) {
     return this.appService.getFingerprintByUserId(req.user.sub);
   }
 
-  @Patch('refresh-code')
-  @Roles(RoleType.ADMIN)
+  @Roles(RoleType.EMPLOYEE, RoleType.GUARDED, RoleType.GUARDIAN)
+  @Patch('refresh-my-code')
   updateFingerprintByUserId(@Request() req) {
     return this.appService.updateFingerprintByUserId(req.user.sub);
   }
 
-  @Post('make-a-register')
+  @Post('gen-register')
   createAnRegisterByFingerprint(@Body() body) {
     return this.appService.createAnRegisterByFingerprint(body.fingerprint);
   }

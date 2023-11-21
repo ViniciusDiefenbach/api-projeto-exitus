@@ -21,23 +21,26 @@ import { ApiTags } from '@nestjs/swagger';
 export class RegisterController {
   constructor(private readonly registerService: RegisterService) {}
 
-  @Post()
   @Roles(RoleType.ADMIN)
+  @Post()
   create(@Body() createRegisterDto: CreateRegisterDto) {
     console.log(createRegisterDto);
     return this.registerService.create(createRegisterDto);
   }
 
+  @Roles(RoleType.ADMIN)
   @Get()
   findAll(@Query() findAllRegisterDto: FindAllRegisterDto) {
     return this.registerService.findAll(findAllRegisterDto);
   }
 
+  @Roles(RoleType.ADMIN)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.registerService.findOne(id);
   }
 
+  @Roles(RoleType.ADMIN)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -46,6 +49,7 @@ export class RegisterController {
     return this.registerService.update(id, updateRegisterDto);
   }
 
+  @Roles(RoleType.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.registerService.remove(id);

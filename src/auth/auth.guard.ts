@@ -25,6 +25,9 @@ export class AuthGuard implements CanActivate {
       ROLES_KEY,
       context.getHandler(),
     );
+    if (!roles) {
+      return true;
+    }
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
     if (!authHeader) {
@@ -49,7 +52,7 @@ export class AuthGuard implements CanActivate {
       }
     >this.jwtService.decode(token);
     request.user = user;
-    if (!roles || roles.includes(user.role)) {
+    if (roles.includes(user.role)) {
       return true;
     }
     throw new UnauthorizedException('Usuário não autorizado!');

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { PrismaService } from './prisma/prisma.service';
 import { RegisterType, RoleType, Shift } from '@prisma/client';
@@ -14,8 +14,8 @@ export class AppService {
     page,
   }: {
     id: string;
-    take: number;
-    page: number;
+    take: string;
+    page: string;
   }) {
     const registers = await this.prismaService.register.findMany({
       where: {
@@ -27,7 +27,10 @@ export class AppService {
         created_at: 'desc',
       },
     });
-    return { registers, count: registers.length };
+    if (registers.length < 1) {
+      throw new InternalServerErrorException('Usuário não possui registros');
+    }
+    return registers;
   }
 
   async getFingerprintByUserId(id: string) {
@@ -36,7 +39,6 @@ export class AppService {
         id: id,
       },
     });
-    console.log(user);
     return { fingerprint: user.fingerprint };
   }
 
@@ -49,11 +51,13 @@ export class AppService {
         fingerprint: randomUUID(),
       },
     });
-    return true;
+    return {
+      message: 'Código atualizado com sucesso',
+    };
   }
 
   async getGuardedsByUserId(userId: string) {
-    return await this.prismaService.guardRelation.findMany({
+    const guardeds = await this.prismaService.guardRelation.findMany({
       select: {
         guarded: {
           select: {
@@ -69,6 +73,50 @@ export class AppService {
         guardian_id: userId,
       },
     });
+    if (guardeds.length < 1) {
+      throw new InternalServerErrorException('Usuário não possui protegidos');
+    }
+    return guardeds;
+  }
+
+  async getGuardedRegistersByUserId({
+    guardian,
+    guarded,
+    take,
+    page,
+  }: {
+    guardian: string;
+    guarded: string;
+    take: string;
+    page: string;
+  }) {
+    const guard_relation = await this.prismaService.guardRelation.findUnique({
+      where: {
+        guarded_id_guardian_id: {
+          guarded_id: guarded,
+          guardian_id: guardian,
+        },
+      },
+    });
+    if (!guard_relation) {
+      throw new InternalServerErrorException(
+        'Guardião não possui relação com o protegido',
+      );
+    }
+    const registers = await this.prismaService.register.findMany({
+      take: take ? Number(take) : 10,
+      skip: page ? Number(page) * (take ? Number(take) : 10) : 0,
+      where: {
+        user_id: guarded,
+      },
+      orderBy: {
+        created_at: 'desc',
+      },
+    });
+    if (registers.length < 1) {
+      throw new InternalServerErrorException('Usuário não possui registros');
+    }
+    return registers;
   }
 
   async createAnRegisterByFingerprint(fingerprint) {
@@ -94,11 +142,13 @@ export class AppService {
     });
 
     if (!user) {
-      throw new Error('User not found');
+      throw new InternalServerErrorException(
+        'Usuário não encontrado (Possivelmente, erro no QR Code)',
+      );
     }
 
     if (user.roles.length < 1) {
-      throw new Error('User has no roles');
+      throw new InternalServerErrorException('Usuário não possui permissão');
     }
 
     // Checking if the user is coming or leaving
@@ -197,7 +247,9 @@ export class AppService {
       register_type === RegisterType.IN &&
       current_shift !== user.shift
     ) {
-      throw new Error('Students can only enter in their shift');
+      throw new InternalServerErrorException(
+        'Estudantes não podem entrar no colégio fora do horário',
+      );
     }
     // Checking if the student can enter (configurable in schedule.json)
 
@@ -234,8 +286,10 @@ export class AppService {
 
     // Checking if the student can exit (minimum age is configurable in schedule.json)
     if (register_type === RegisterType.OUT && age < schedule.minAgeToLeave) {
+      let validEarlyExit;
+
       if (early_exits.length > 0) {
-        const validEarlyExit = early_exits.find((e_e) => {
+        validEarlyExit = early_exits.find((e_e) => {
           if (now.getHours() > e_e.time.getHours()) {
             return true;
           } else if (
@@ -247,12 +301,12 @@ export class AppService {
             return false;
           }
         });
+      }
 
-        if (!validEarlyExit) {
-          throw new Error(
-            'Students can only exit, in class hours, with more than 18 years old',
-          );
-        }
+      if (!validEarlyExit) {
+        throw new InternalServerErrorException(
+          'Estudantes com menos de 18 anos não podem sair do colégio fora do horário',
+        );
       }
     }
     // Checking if the student can exit (minimum age is configurable in schedule.json)

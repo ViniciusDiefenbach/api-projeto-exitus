@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Roles } from './auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')

@@ -9,22 +9,24 @@ import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('user-role-relation')
 @Controller('user-role-relation')
-@Roles(RoleType.ADMIN)
 export class UserRoleRelationController {
   constructor(
     private readonly userRoleRelationService: UserRoleRelationService,
   ) {}
 
+  @Roles(RoleType.ADMIN)
   @Post()
   create(@Body() createUserRoleRelationDto: CreateUserRoleRelationDto) {
     return this.userRoleRelationService.create(createUserRoleRelationDto);
   }
 
+  @Roles(RoleType.ADMIN)
   @Get()
   findAll(@Query() findAllUserRoleRelationDto: FindAllUserRoleRelationDto) {
     return this.userRoleRelationService.findAll(findAllUserRoleRelationDto);
   }
 
+  @Roles(RoleType.ADMIN)
   @Delete()
   remove(@Query() deleteUserRoleRelationDto: DeleteUserRoleRelationDto) {
     return this.userRoleRelationService.remove(deleteUserRoleRelationDto);

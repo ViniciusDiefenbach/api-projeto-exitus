@@ -24,18 +24,111 @@
 //    }
 //  ]
 
+
 POST http://localhost:3000/user HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 Content-Type: application/json
 
 {
-  "active": false,
+  "name": "Vinicius Diefenbach",
+  "email": "viniciusdiefenbach@gmail.com",
+  "password": "vinidiefen",
+  "fingerprint": "vinicius diefenbach fingerprint",
+  "enrollment": "20231sg.inf_i0098",
+  "birth": "2004-05-12",
+  "shift": "MORNING",
+  "roles": [
+    {
+      "id": "ba4b0676-142b-481b-b15c-9af7da2e3004"
+    },
+    {
+      "id": "15302eb1-ee3e-4e77-8934-e53a238d1e41"
+    }
+  ]
+}
+
+###
+POST http://localhost:3000/user HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
+Content-Type: application/json
+
+{
   "name": "John Doe",
   "email": "johndoe@mail.com",
   "password": "123456",
   "fingerprint": "john doe fingerprint",
-  "enrollment": "john doe enrollment",
-  "birth": "2005-01-01",
-  "shift": "MORNING"
+  "roles": [
+    {
+      "id": "97ff860c-b811-4b44-b3a6-7ae85921a36a"
+    }
+  ],
+  "guardeds": [
+    {
+      "id": "<uuid vini>"
+    }
+  ]
+}
+
+###
+POST http://localhost:3000/user HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
+Content-Type: application/json
+
+{
+  "name": "Kauê Soares",
+  "email": "kauesoares@gmail.com",
+  "password": "kauesoares",
+  "fingerprint": "kaue soares fingerprint",
+  "enrollment": "20231sg.inf_i0007",
+  "birth": "2003-12-17",
+  "shift": "AFTERNOON",
+  "roles": [
+    {
+      "id": "15302eb1-ee3e-4e77-8934-e53a238d1e41"
+    }
+  ]
+}
+
+###
+POST http://localhost:3000/user HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
+Content-Type: application/json
+
+{
+  "name": "Maria Soares",
+  "email": "mariasoares@gmail.com",
+  "password": "mariasoares",
+  "fingerprint": "maria soares fingerprint",
+  "enrollment": "20251sg.inf_i0015",
+  "birth": "2010-02-06",
+  "shift": "MORNING",
+  "roles": [
+    {
+      "id": "15302eb1-ee3e-4e77-8934-e53a238d1e41"
+    }
+  ]
+}
+
+###
+POST http://localhost:3000/user HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
+Content-Type: application/json
+
+{
+  "name": "Molly Allyson",
+  "email": "molyallyson@mail.com",
+  "password": "123456",
+  "fingerprint": "molly allyson fingerprint",
+  "roles": [
+    {
+      "id": "97ff860c-b811-4b44-b3a6-7ae85921a36a"
+    }
+  ],
+  "guardeds": [
+    {
+      "id": "<uuid kaue>"
+    }
+  ]
 }
 
 ### 2. Get all the users
@@ -54,30 +147,39 @@ Content-Type: application/json
 // shift: optional (find for registers that the shift are equals to the shift provided)
 
 GET http://localhost:3000/user HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
 ###
 GET http://localhost:3000/user?active=false HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
 ###
 GET http://localhost:3000/user?limit=1 HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
 ###
 GET http://localhost:3000/user?limit=1&page=1 HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
 ###
 GET http://localhost:3000/user?name=John D HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
 ###
 GET http://localhost:3000/user?email=johndoe@mail.co HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
 ###
 GET http://localhost:3000/user?shift=MORNING HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
 ### 3. Get a user by id
 GET http://localhost:3000/user/<uuid> HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
 ### 4. Update a user
 PATCH http://localhost:3000/user/<uuid> HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 Content-Type: application/json
 
 {
@@ -86,3 +188,4 @@ Content-Type: application/json
 
 ### 5. Delete a user
 DELETE http://localhost:3000/user/<uuid> HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo

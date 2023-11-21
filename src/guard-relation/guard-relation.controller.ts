@@ -9,20 +9,22 @@ import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('guard-relation')
 @Controller('guard-relation')
-@Roles(RoleType.ADMIN)
 export class GuardRelationController {
   constructor(private readonly guardRelationService: GuardRelationService) {}
 
+  @Roles(RoleType.ADMIN)
   @Post()
   create(@Body() createGuardRelationDto: CreateGuardRelationDto) {
     return this.guardRelationService.create(createGuardRelationDto);
   }
 
+  @Roles(RoleType.ADMIN)
   @Get()
   findAll(@Query() findAllGuardRelationDto: FindAllGuardRelationDto) {
     return this.guardRelationService.findAll(findAllGuardRelationDto);
   }
 
+  @Roles(RoleType.ADMIN)
   @Delete()
   remove(@Query() deleteGuardRelationDto: DeleteGuardRelationDto) {
     return this.guardRelationService.remove(deleteGuardRelationDto);

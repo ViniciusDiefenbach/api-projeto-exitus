@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateRegisterDto } from './dto/create-register.dto';
 import { UpdateRegisterDto } from './dto/update-register.dto';
 import { PrismaService } from '@/prisma/prisma.service';
@@ -11,6 +11,14 @@ export class RegisterService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create({ time, register_type: r, user_id }: CreateRegisterDto) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id: user_id,
+      },
+    });
+    if (!user) {
+      throw new InternalServerErrorException('Usuário não encontrado');
+    }
     let register_type = r;
     if (!r) {
       const last_register = await this.prismaService.register.findFirst({

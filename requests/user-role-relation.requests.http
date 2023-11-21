@@ -1,10 +1,11 @@
 ### 1. Create a user role relation
 POST http://localhost:3000/user-role-relation HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 Content-Type: application/json
 
 {
-  "user_id": "3a80a50a-acf0-4043-83fe-fa2938a6bdf8",
-  "role_id": "718a27ae-608d-4097-b1ec-dbccb6953655"
+  "user_id": "<uuid>",
+  "role_id": "<uuid>"
 }
 
 ### 2. Get all user roles relationship
@@ -21,9 +22,11 @@ Content-Type: application/json
 // role: optional (find for registers that the role id are equals to the role id provided)
 
 GET http://localhost:3000/user-role-relation HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
 ### 3. Delete a user role relation
 
 // * To delete a user role relation, you need to provide the user id and the role id by query params *
 
 DELETE http://localhost:3000/user-role-relation?role=<uuid>&&user=<uuid> HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo

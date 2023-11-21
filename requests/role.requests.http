@@ -1,5 +1,7 @@
 ### 1. Get all roles
 GET http://localhost:3000/role HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
 ### 2. Get a role by id
 GET http://localhost:3000/role/<uuid> HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo

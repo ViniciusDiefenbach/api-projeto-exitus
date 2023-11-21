@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateUserRoleRelationDto } from './dto/create-user-role-relation.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { FindAllUserRoleRelationDto } from './dto/find-all-user-role-relation.dto';
@@ -9,6 +9,22 @@ export class UserRoleRelationService {
   constructor(private readonly prismService: PrismaService) {}
 
   async create({ role_id, user_id }: CreateUserRoleRelationDto) {
+    const user = await this.prismService.user.findUnique({
+      where: {
+        id: user_id,
+      },
+    });
+    if (!user) {
+      throw new InternalServerErrorException('Usuário não encontrado');
+    }
+    const role = await this.prismService.role.findUnique({
+      where: {
+        id: role_id,
+      },
+    });
+    if (!role) {
+      throw new InternalServerErrorException('Função não encontrada');
+    }
     return await this.prismService.userRoleRelation.create({
       data: {
         role_id,
@@ -65,6 +81,22 @@ export class UserRoleRelationService {
   }
 
   async remove({ role: role_id, user: user_id }: DeleteUserRoleRelationDto) {
+    const user = await this.prismService.user.findUnique({
+      where: {
+        id: user_id,
+      },
+    });
+    if (!user) {
+      throw new InternalServerErrorException('Usuário não encontrado');
+    }
+    const role = await this.prismService.role.findUnique({
+      where: {
+        id: role_id,
+      },
+    });
+    if (!role) {
+      throw new InternalServerErrorException('Função não encontrada');
+    }
     return await this.prismService.userRoleRelation.delete({
       where: {
         user_id_role_id: {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateGuardRelationDto } from './dto/create-guard-relation.dto';
 import { FindAllGuardRelationDto } from './dto/find-all-guard-relation.dto';
 import { PrismaService } from '@/prisma/prisma.service';
@@ -9,6 +9,22 @@ export class GuardRelationService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create({ guarded_id, guardian_id }: CreateGuardRelationDto) {
+    const guarded = await this.prismaService.user.findUnique({
+      where: {
+        id: guarded_id,
+      },
+    });
+    if (!guarded) {
+      throw new InternalServerErrorException('Guarded não encontrado');
+    }
+    const guardian = await this.prismaService.user.findUnique({
+      where: {
+        id: guardian_id,
+      },
+    });
+    if (!guardian) {
+      throw new InternalServerErrorException('Guardian não encontrado');
+    }
     return await this.prismaService.guardRelation.create({
       data: {
         guarded_id,
@@ -51,6 +67,22 @@ export class GuardRelationService {
     guarded: guarded_id,
     guardian: guardian_id,
   }: DeleteGuardRelationDto) {
+    const guarded = await this.prismaService.user.findUnique({
+      where: {
+        id: guarded_id,
+      },
+    });
+    if (!guarded) {
+      throw new InternalServerErrorException('Usuário não encontrado');
+    }
+    const guardian = await this.prismaService.user.findUnique({
+      where: {
+        id: guardian_id,
+      },
+    });
+    if (!guardian) {
+      throw new InternalServerErrorException('Usuário não encontrado');
+    }
     return await this.prismaService.guardRelation.delete({
       where: {
         guarded_id_guardian_id: {

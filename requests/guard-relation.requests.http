@@ -1,10 +1,11 @@
 ### 1. Create a guard relation
 POST http://localhost:3000/guard-relation HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 Content-Type: application/json
 
 {
-  "guarded_id": "20ef986c-4cce-45b3-b1b2-bb300f70eace",
-  "guardian_id": "1583706b-b94a-4186-924a-f5f531b2a85e"
+  "guarded_id": "<uuid>",
+  "guardian_id": "<uuid>"
 }
 
 ### 2. Get all guards relationship
@@ -21,9 +22,11 @@ Content-Type: application/json
 // guardian: optional (find for registers that the role id are equals to the guardian id provided)
 
 GET http://localhost:3000/guard-relation HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
 ### 3. Delete a guard relation
 
 // * To delete a guard relation, you need to provide the guarded id and the guardian id by query params *
 
 DELETE http://localhost:3000/guard-relation?guarded=<uuid>&&guardian=<uuid> HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo

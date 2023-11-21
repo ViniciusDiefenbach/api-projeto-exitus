@@ -23,7 +23,7 @@ export class CreateRegisterDto {
   @ApiProperty({
     example: 'IN',
     description:
-      'The type of the register (aplly logic to define if not provided)',
+      'The type of the register (Optional - Default: aplly logic to define)',
     required: false,
     enum: ['IN', 'OUT'],
   })
@@ -34,7 +34,7 @@ export class CreateRegisterDto {
 
   @ApiProperty({
     example: new Date(),
-    description: 'The time of the register (get now date if not provided)',
+    description: 'The time of the register (Optional - Default: now)',
     required: false,
   })
   @IsOptional()

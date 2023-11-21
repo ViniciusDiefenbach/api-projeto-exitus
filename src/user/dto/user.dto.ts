@@ -67,6 +67,7 @@ export class UserDto {
   @ApiProperty({
     example: '123456',
     description: 'The enrollment of the user (optional - default: random uuid)',
+    required: false,
   })
   @IsOptional()
   @IsString()
@@ -75,6 +76,7 @@ export class UserDto {
   @ApiProperty({
     example: new Date(),
     description: 'The birth of the user',
+    required: false,
   })
   @IsOptional()
   @Transform(({ value }) => new Date(value))

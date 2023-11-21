@@ -58,7 +58,7 @@ export class FindAllEarlyExitDto {
   @IsOptional()
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  start_at?: Date;
+  start_at?: Date = new Date('1970-01-01T00:00:00.000Z');
 
   @ApiProperty({
     example: new Date(),
@@ -68,7 +68,7 @@ export class FindAllEarlyExitDto {
   @IsOptional()
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  end_at?: Date;
+  end_at?: Date = new Date('9999-12-31T23:59:59.999Z');
 
   @ApiProperty({
     example: new Date(),
@@ -90,5 +90,5 @@ export class FindAllEarlyExitDto {
   @IsOptional()
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  end_time?: Date = new Date('1970-01-01T23:59:59.999');
+  end_time?: Date = new Date('1970-01-01T23:59:00.000');
 }

@@ -18,25 +18,28 @@ import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('user')
 @Controller('user')
-@Roles(RoleType.ADMIN)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Roles(RoleType.ADMIN)
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.userService.create(createUserDto);
   }
 
+  @Roles(RoleType.ADMIN)
   @Get()
   async findAll(@Query() findAllUserDto: FindAllUserDto) {
     return await this.userService.findAll(findAllUserDto);
   }
 
+  @Roles(RoleType.ADMIN)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.userService.findById(id);
   }
 
+  @Roles(RoleType.ADMIN)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     try {
@@ -46,6 +49,7 @@ export class UserController {
     }
   }
 
+  @Roles(RoleType.ADMIN)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.userService.remove(id);
