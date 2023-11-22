@@ -15,7 +15,7 @@ export class UserService {
   ) {}
 
   async create({ password, guardeds, roles, ...data }: CreateUserDto) {
-    return await this.prismaService.user.create({
+    const user = await this.prismaService.user.create({
       data: {
         password: password
           ? await this.bcryptService.hash({ password })
@@ -25,10 +25,24 @@ export class UserService {
         ...data,
       },
     });
+    const { password: _, ...result } = user;
+    return result;
   }
 
   async findAll({ page, limit, active, shift, ...filter }: FindAllUserDto) {
     return this.prismaService.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        enrollment: true,
+        active: true,
+        shift: true,
+        created_at: true,
+        updated_at: true,
+        birth: true,
+        fingerprint: true,
+      },
       take: limit,
       skip: limit * page,
       where: {
@@ -48,15 +62,43 @@ export class UserService {
   }
 
   async findById(id: string) {
-    return await this.prismaService.user.findUnique({ where: { id } });
+    return await this.prismaService.user.findUnique({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        enrollment: true,
+        active: true,
+        shift: true,
+        created_at: true,
+        updated_at: true,
+        birth: true,
+        fingerprint: true,
+      },
+      where: { id },
+    });
   }
 
   findByEmail(email: string) {
-    return this.prismaService.user.findUnique({ where: { email } });
+    return this.prismaService.user.findUnique({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        enrollment: true,
+        active: true,
+        shift: true,
+        created_at: true,
+        updated_at: true,
+        birth: true,
+        fingerprint: true,
+      },
+      where: { email },
+    });
   }
 
   async update(id: string, { password, ...data }: UpdateUserDto) {
-    return await this.prismaService.user.update({
+    const user = await this.prismaService.user.update({
       where: { id },
       data: {
         password: password
@@ -65,9 +107,13 @@ export class UserService {
         ...data,
       },
     });
+    const { password: _, ...result } = user;
+    return result;
   }
 
   async remove(id: string) {
-    return await this.prismaService.user.delete({ where: { id } });
+    const user = await this.prismaService.user.delete({ where: { id } });
+    const { password: _, ...result } = user;
+    return result;
   }
 }
