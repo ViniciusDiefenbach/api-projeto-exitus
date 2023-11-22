@@ -58,7 +58,7 @@ export class AppService {
   }
 
   async updateFingerprintByUserId(userId: string) {
-    await this.prismaService.user.update({
+    const user = await this.prismaService.user.update({
       where: {
         id: userId,
       },
@@ -67,7 +67,7 @@ export class AppService {
       },
     });
     return {
-      message: 'Código atualizado com sucesso',
+      fingerprint: user.fingerprint,
     };
   }
 
