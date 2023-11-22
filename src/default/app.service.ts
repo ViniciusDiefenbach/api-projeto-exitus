@@ -8,6 +8,31 @@ import schedule from '../../config/schedule.json';
 export class AppService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async createAnEarlyExitForMyGuarded({ guarded_id, guardian_id, start_at, end_at, time }) {
+    const guard_relation = await this.prismaService.guardRelation.findUnique({
+      where: {
+        guarded_id_guardian_id: {
+          guarded_id,
+          guardian_id,
+        },
+      },
+    });
+    if (!guard_relation) {
+      throw new InternalServerErrorException(
+        'Guardião não possui relação com o protegido',
+      );
+    }
+    const early_exit = await this.prismaService.earlyExit.create({
+      data: {
+        guarded_id,
+        guardian_id,
+        start_at,
+        end_at,
+        time,
+      },
+    });
+  }
+
   async getRegistersByUserId({
     id,
     take,

@@ -13,6 +13,7 @@ import { RoleType } from '@prisma/client';
 import { FingerprintDto } from './dto/fingerprint.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { GetMyGuardedRegistersDto } from './dto/get-my-guarded-registers.dto';
+import { createAnEarlyExitForMyGuardedDto } from './dto/create-an-early-exit-for-my-guarded.dto';
 
 @Controller()
 export class AppController {
@@ -66,5 +67,17 @@ export class AppController {
   @Post('create-register')
   createAnRegisterByFingerprint(@Body() { fingerprint }: FingerprintDto) {
     return this.appService.createAnRegisterByFingerprint(fingerprint);
+  }
+
+  @Post('create-an-early-exit-for-my-guarded')
+  createAnEarlyExitForMyGuarded(
+    @Request() req,
+    @Body() createAnEarlyExitForMyGuarded: createAnEarlyExitForMyGuardedDto,
+  ) {
+    const guardian_id = req.user.sub;
+    return this.appService.createAnEarlyExitForMyGuarded({
+      guardian_id,
+      ...createAnEarlyExitForMyGuarded,
+    });
   }
 }
