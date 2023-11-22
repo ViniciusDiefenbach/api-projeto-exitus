@@ -19,6 +19,12 @@ import { createAnEarlyExitForMyGuardedDto } from './dto/create-an-early-exit-for
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Roles(RoleType.ADMIN, RoleType.EMPLOYEE, RoleType.GUARDED, RoleType.GUARDIAN)
+  @Get('my-profile')
+  getProfile(@Request() req) {
+    return this.appService.getProfile(req.user.sub);
+  }
+
   @Roles(RoleType.EMPLOYEE, RoleType.GUARDED, RoleType.GUARDIAN)
   @Get('my-registers')
   async getRegistersByUserId(
@@ -75,9 +81,6 @@ export class AppController {
     @Body() createAnEarlyExitForMyGuarded: createAnEarlyExitForMyGuardedDto,
   ) {
     const guardian_id = req.user.sub;
-    return this.appService.createAnEarlyExitForMyGuarded({
-      guardian_id,
-      ...createAnEarlyExitForMyGuarded,
-    });
+    return;
   }
 }

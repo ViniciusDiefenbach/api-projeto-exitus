@@ -1,14 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import {
-  IsDate,
-  IsDateString,
-  IsInt,
-  IsNumber,
-  IsOptional,
-  IsPositive,
-  IsUUID,
-} from 'class-validator';
+import { IsDate, IsInt, IsOptional, IsUUID } from 'class-validator';
 import { randomUUID } from 'crypto';
 
 export class FindAllEarlyExitDto {

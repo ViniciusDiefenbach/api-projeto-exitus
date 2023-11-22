@@ -1,3 +1,7 @@
+### my-profile
+GET http://localhost:3000/my-profile HTTP/1.1
+Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODQyYThlYy1mYmRmLTRhMGQtYmZkMS04NGFkMTM5NjllNjciLCJyb2xlIjoiR1VBUkRFRCIsImlhdCI6MTUxNjIzOTAyMn0.cw9zw70Y6xi41RDYN3zknJLncMwT7H9hOIT0Az1ZPRA
+
 ### 1. Get a Error because Admin can't get self register
 GET http://localhost:3000/my-registers HTTP/1.1
 Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
