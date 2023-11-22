@@ -17,12 +17,13 @@ export class LoginDto {
   })
   @IsString()
   @IsOptional()
-  @IsEnum([
-    RoleType.ADMIN,
-    RoleType.EMPLOYEE,
-    RoleType.GUARDED,
-    RoleType.GUARDIAN,
-  ])
+  @IsEnum(
+    [RoleType.ADMIN, RoleType.EMPLOYEE, RoleType.GUARDED, RoleType.GUARDIAN],
+    {
+      message:
+        'A função do usuário deve ser ADMIN, EMPLOYEE, GUARDED ou GUARDIAN',
+    },
+  )
   role?: string;
 
   @ApiProperty({
