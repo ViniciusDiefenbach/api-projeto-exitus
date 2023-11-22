@@ -8,8 +8,11 @@ import {
   Request,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Roles } from './auth/auth.guard';
+import { Roles } from '../auth/auth.guard';
 import { RoleType } from '@prisma/client';
+import { FingerprintDto } from './dto/fingerprint.dto';
+import { PaginationDto } from './dto/pagination.dto';
+import { GetMyGuardedRegistersDto } from './dto/get-my-guarded-registers.dto';
 
 @Controller()
 export class AppController {
@@ -17,11 +20,14 @@ export class AppController {
 
   @Roles(RoleType.EMPLOYEE, RoleType.GUARDED, RoleType.GUARDIAN)
   @Get('my-registers')
-  async getRegistersByUserId(@Request() req, @Query() query) {
+  async getRegistersByUserId(
+    @Request() req,
+    @Query() { page, limit }: PaginationDto,
+  ) {
     return this.appService.getRegistersByUserId({
       id: req.user.sub,
-      take: query.take,
-      page: query.page,
+      take: limit,
+      page: page,
     });
   }
 
@@ -33,12 +39,15 @@ export class AppController {
 
   @Roles(RoleType.GUARDIAN)
   @Get('my-guarded-registers')
-  getGuardedRegistersByUserId(@Request() req, @Query() query) {
+  getGuardedRegistersByUserId(
+    @Request() req,
+    @Query() { guarded, limit, page }: GetMyGuardedRegistersDto,
+  ) {
     return this.appService.getGuardedRegistersByUserId({
       guardian: req.user.sub,
-      guarded: query.guarded,
-      take: query.take,
-      page: query.page,
+      guarded: guarded,
+      take: limit,
+      page: page,
     });
   }
 
@@ -54,8 +63,8 @@ export class AppController {
     return this.appService.updateFingerprintByUserId(req.user.sub);
   }
 
-  @Post('gen-register')
-  createAnRegisterByFingerprint(@Body() body) {
-    return this.appService.createAnRegisterByFingerprint(body.fingerprint);
+  @Post('create-register')
+  createAnRegisterByFingerprint(@Body() { fingerprint }: FingerprintDto) {
+    return this.appService.createAnRegisterByFingerprint(fingerprint);
   }
 }

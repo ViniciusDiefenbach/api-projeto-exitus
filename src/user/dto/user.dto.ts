@@ -62,7 +62,7 @@ export class UserDto {
   })
   @IsOptional()
   @IsString()
-  fingerprint: string;
+  fingerprint: string = randomUUID();
 
   @ApiProperty({
     example: '123456',

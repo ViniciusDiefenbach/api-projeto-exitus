@@ -1,8 +1,8 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
-import { PrismaService } from './prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { RegisterType, RoleType, Shift } from '@prisma/client';
-import schedule from '../config/schedule.json';
+import schedule from '../../config/schedule.json';
 
 @Injectable()
 export class AppService {
@@ -285,7 +285,11 @@ export class AppService {
     // Check if the student have a early exit
 
     // Checking if the student can exit (minimum age is configurable in schedule.json)
-    if (register_type === RegisterType.OUT && age < schedule.minAgeToLeave) {
+    if (
+      register_type === RegisterType.OUT &&
+      age < schedule.minAgeToLeave &&
+      user.shift === current_shift
+    ) {
       let validEarlyExit;
 
       if (early_exits.length > 0) {
