@@ -6,65 +6,17 @@ Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODQyYThlY
 GET http://localhost:3000/my-registers?type=IN&page=1&limit=1&start=2023-11-21T02:00:45.387Z&end=2023-11-21T02:00:45.387Z HTTP/1.1
 Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODQyYThlYy1mYmRmLTRhMGQtYmZkMS04NGFkMTM5NjllNjciLCJyb2xlIjoiR1VBUkRFRCIsImlhdCI6MTUxNjIzOTAyMn0.cw9zw70Y6xi41RDYN3zknJLncMwT7H9hOIT0Az1ZPRA
 
-### 1. Get a Error because Admin can't get self register
-GET http://localhost:3000/my-registers HTTP/1.1
-Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
-
-### 1. Get a Error because User has no registers
-GET http://localhost:3000/my-registers HTTP/1.1
-Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OGRkNWFjMi03YWE2LTQ1YTQtYjNlZC0yZmI1NjAyOWUyMTYiLCJyb2xlIjoiR1VBUkRJQU4iLCJpYXQiOjE1MTYyMzkwMjJ9.xhKWlya19xRD7awBdzqQJ-b6l6WzsMrTOIGi50btw-Y
-
-### 1. Get the user registers
-GET http://localhost:3000/my-registers HTTP/1.1
-Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODQyYThlYy1mYmRmLTRhMGQtYmZkMS04NGFkMTM5NjllNjciLCJyb2xlIjoiR1VBUkRFRCIsImlhdCI6MTUxNjIzOTAyMn0.cw9zw70Y6xi41RDYN3zknJLncMwT7H9hOIT0Az1ZPRA
-
-### 3. Get user QR Code (vinicius)
+### my-code
 GET http://localhost:3000/my-code HTTP/1.1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODQyYThlYy1mYmRmLTRhMGQtYmZkMS04NGFkMTM5NjllNjciLCJyb2xlIjoiR1VBUkRFRCIsImlhdCI6MTUxNjIzOTAyMn0.cw9zw70Y6xi41RDYN3zknJLncMwT7H9hOIT0Az1ZPRA
 
-### 3. Get user QR Code (kaue)
-GET http://localhost:3000/my-code HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYWNlYzRjMi1kNmQ2LTQ2ZDQtYWZlZS1hM2ViODJkMGI4NjkiLCJyb2xlIjoiR1VBUkRFRCIsImlhdCI6MTUxNjIzOTAyMn0.pY_cM8IYV5hXSw95ttGw_9cN7pcHHMDb6vdx3feXHcc
-
-### 3. Get user QR Code (maria)
-GET http://localhost:3000/my-code HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZGRmZGIzYi00MTg5LTQ2YzQtOTQ5Zi05NDU2MzAzMjM1OWEiLCJyb2xlIjoiR1VBUkRFRCIsImlhdCI6MTUxNjIzOTAyMn0.ys3E01IB2X9m31iXkS976Owr_Ugg5bgJZWFJCNqt5H0
-
-### 3. Get user QR Code (John Doe) -> User able to do this, but the another methods are not implemented
-GET http://localhost:3000/my-code HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OGRkNWFjMi03YWE2LTQ1YTQtYjNlZC0yZmI1NjAyOWUyMTYiLCJyb2xlIjoiR1VBUkRJQU4iLCJpYXQiOjE1MTYyMzkwMjJ9.xhKWlya19xRD7awBdzqQJ-b6l6WzsMrTOIGi50btw-Y
-
-### 3. Get an Error because Admin can't get self QR Code
-GET http://localhost:3000/my-code HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
-
-### 3. Refresh user QR Code (vinicius)
+### refresh-code
 PATCH http://localhost:3000/refresh-my-code HTTP/1.1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODQyYThlYy1mYmRmLTRhMGQtYmZkMS04NGFkMTM5NjllNjciLCJyb2xlIjoiR1VBUkRFRCIsImlhdCI6MTUxNjIzOTAyMn0.cw9zw70Y6xi41RDYN3zknJLncMwT7H9hOIT0Az1ZPRA
 
-### 3. Refresh user QR Code (John Doe) -> User able to do this, but the another methods are not implemented
-PATCH http://localhost:3000/refresh-my-code HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OGRkNWFjMi03YWE2LTQ1YTQtYjNlZC0yZmI1NjAyOWUyMTYiLCJyb2xlIjoiR1VBUkRJQU4iLCJpYXQiOjE1MTYyMzkwMjJ9.xhKWlya19xRD7awBdzqQJ-b6l6WzsMrTOIGi50btw-Y
-
-### 3. Get an Error because Admin can't refresh self QR Code
-PATCH http://localhost:3000/refresh-my-code HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
-
-### 3. Get an Error because user cant access this method (admin)
+### my-guardeds
 GET http://localhost:3000/my-guardeds HTTP/1.1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
-
-### 3. Get an Error because user cant access this method (vinicius)
-GET http://localhost:3000/my-guardeds HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODQyYThlYy1mYmRmLTRhMGQtYmZkMS04NGFkMTM5NjllNjciLCJyb2xlIjoiR1VBUkRFRCIsImlhdCI6MTUxNjIzOTAyMn0.cw9zw70Y6xi41RDYN3zknJLncMwT7H9hOIT0Az1ZPRA
-
-### 3. Get guarded users (John Doe)
-GET http://localhost:3000/my-guardeds HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODQyYThlYy1mYmRmLTRhMGQtYmZkMS04NGFkMTM5NjllNjciLCJyb2xlIjoiR1VBUkRFRCIsImlhdCI6MTUxNjIzOTAyMn0.cw9zw70Y6xi41RDYN3zknJLncMwT7H9hOIT0Az1ZPRA
-
-### Get guarded users (Molly)
-GET http://localhost:3000/my-guardeds HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYTFjNDg2ZS1mYTczLTQwODQtODk0MS04OTA2MjM1MjNjNmQiLCJyb2xlIjoiR1VBUkRJQU4iLCJpYXQiOjE1MTYyMzkwMjJ9.2OSL87PoQup_TC8QBFC85MOq3U0QhUTEeIVesSJeQ2E
 
 ### Get guarded registers (John Doe)
 GET http://localhost:3000/my-guarded-registers?guarded=c842a8ec-fbdf-4a0d-bfd1-84ad13969e67 HTTP/1.1
