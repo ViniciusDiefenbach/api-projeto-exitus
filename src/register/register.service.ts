@@ -69,7 +69,7 @@ export class RegisterService {
     end_time,
     user_id,
   }: FindAllRegisterDto) {
-    return await this.prismaService.register.findMany({
+    const registers = await this.prismaService.register.findMany({
       take: limit,
       skip: limit * page,
       where: {
@@ -81,6 +81,20 @@ export class RegisterService {
         },
       },
     });
+    const count = await this.prismaService.register.count({
+      where: {
+        user_id,
+        register_type: register_type as RegisterType,
+        time: {
+          gte: start_time,
+          lte: end_time,
+        },
+      },
+    });
+    return {
+      registers,
+      count,
+    };
   }
 
   async findOne(id: string) {
