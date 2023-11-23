@@ -136,6 +136,7 @@ export class AppService {
     end,
     start,
     type,
+    sort,
   }: GetMyGuardedRegistersMethodDto) {
     const guard_relation = await this.prismaService.guardRelation.findUnique({
       where: {
@@ -157,6 +158,7 @@ export class AppService {
       end_time: end,
       start_time: start,
       register_type: type,
+      sort,
     });
   }
 

@@ -68,6 +68,7 @@ export class RegisterService {
     start_time,
     end_time,
     user_id,
+    sort,
   }: FindAllRegisterDto) {
     const registers = await this.prismaService.register.findMany({
       take: limit,
@@ -79,6 +80,9 @@ export class RegisterService {
           gte: start_time,
           lte: end_time,
         },
+      },
+      orderBy: {
+        time: sort,
       },
     });
     const count = await this.prismaService.register.count({

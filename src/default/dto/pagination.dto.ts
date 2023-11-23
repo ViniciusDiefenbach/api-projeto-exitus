@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsOptional } from 'class-validator';
+import { IsEnum, IsOptional } from 'class-validator';
 
 export class PaginationDto {
   @ApiProperty({
@@ -20,4 +20,14 @@ export class PaginationDto {
   @IsOptional()
   @Transform(({ value }) => Number(value))
   limit: number = 8;
+
+  @ApiProperty({
+    example: 'asc',
+    description: 'The order to sort the results',
+    enum: ['asc', 'desc'],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['asc', 'desc'])
+  sort?: 'asc' | 'desc' = 'asc';
 }

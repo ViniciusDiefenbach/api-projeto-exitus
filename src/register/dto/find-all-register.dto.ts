@@ -69,4 +69,14 @@ export class FindAllRegisterDto {
   @IsOptional()
   @IsUUID()
   user_id?: string;
+
+  @ApiProperty({
+    example: 'asc',
+    description: 'The order to sort the results',
+    enum: ['asc', 'desc'],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['asc', 'desc'])
+  sort?: 'asc' | 'desc' = 'asc';
 }
