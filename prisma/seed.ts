@@ -328,7 +328,7 @@ async function main() {
     },
     update: {},
   });
-  console.log('The first student was created successfully!');
+  console.log('The guardian with 2 guardeds were created successfully!');
 }
 
 main()
