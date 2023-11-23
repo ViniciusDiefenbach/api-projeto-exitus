@@ -15,7 +15,7 @@ model User {
   password      String
   fingerprint   String             @unique
   enrollment    String?            @unique
-  birth         DateTime?          @db.Date
+  birth         DateTime?
   shift         Shift?
   created_at    DateTime           @default(now())
   updated_at    DateTime           @updatedAt
@@ -63,9 +63,9 @@ model GuardRelation {
 
 model EarlyExit {
   id             String        @id @default(uuid())
-  start_at       DateTime      @default(now()) @db.Date
-  end_at         DateTime      @db.Date
-  time           DateTime      @db.Time()
+  start_at       DateTime      @default(now())
+  end_at         DateTime
+  time           DateTime
   created_at     DateTime      @default(now())
   updated_at     DateTime      @updatedAt
   guard_relation GuardRelation @relation(fields: [guarded_id, guardian_id], references: [guarded_id, guardian_id])
@@ -78,7 +78,7 @@ model EarlyExit {
 model Register {
   id            String       @id @default(uuid())
   register_type RegisterType
-  time          DateTime     @default(now()) @db.Timestamp()
+  time          DateTime     @default(now())
   created_at    DateTime     @default(now())
   updated_at    DateTime     @updatedAt
   user          User         @relation(fields: [user_id], references: [id])
@@ -90,7 +90,7 @@ model Register {
 model RefreshToken {
   id           String   @id @default(uuid())
   created_at   DateTime @default(now())
-  expires_at   DateTime @db.Timestamp()
+  expires_at   DateTime
   choosed_role RoleType
   user         User     @relation(fields: [user_id], references: [id])
   user_id      String
