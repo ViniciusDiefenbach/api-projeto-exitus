@@ -3,10 +3,16 @@ import { randomUUID } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterType, RoleType, Shift } from '@prisma/client';
 import schedule from '../../config/schedule.json';
+import { RegisterService } from '@/register/register.service';
+import { GetMyGuardedRegistersDto } from './dto/get-my-guarded-registers.dto';
+import { GetMyGuardedRegistersMethodDto } from './dto/get-my-guarded-registers-method.dto';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly registerService: RegisterService,
+  ) {}
 
   async getProfile(id: string) {
     return await this.prismaService.user.findUnique({
@@ -122,17 +128,15 @@ export class AppService {
     return guardeds;
   }
 
-  async getGuardedRegistersByUserId({
+  async getMyGuardedRegisters({
     guardian,
     guarded,
-    take,
+    limit,
     page,
-  }: {
-    guardian: string;
-    guarded: string;
-    take: string;
-    page: string;
-  }) {
+    end,
+    start,
+    type,
+  }: GetMyGuardedRegistersMethodDto) {
     const guard_relation = await this.prismaService.guardRelation.findUnique({
       where: {
         guarded_id_guardian_id: {
@@ -146,20 +150,14 @@ export class AppService {
         'Guardião não possui relação com o protegido',
       );
     }
-    const registers = await this.prismaService.register.findMany({
-      take: take ? Number(take) : 10,
-      skip: page ? Number(page) * (take ? Number(take) : 10) : 0,
-      where: {
-        user_id: guarded,
-      },
-      orderBy: {
-        created_at: 'desc',
-      },
+    return await this.registerService.findAll({
+      user_id: guarded,
+      limit,
+      page,
+      end_time: end,
+      start_time: start,
+      register_type: type,
     });
-    if (registers.length < 1) {
-      throw new InternalServerErrorException('Usuário não possui registros');
-    }
-    return registers;
   }
 
   async createAnRegisterByFingerprint(fingerprint) {

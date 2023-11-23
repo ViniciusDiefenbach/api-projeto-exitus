@@ -69,8 +69,6 @@ export class RegisterService {
     end_time,
     user_id,
   }: FindAllRegisterDto) {
-    console.log('Oi');
-    console.log(page, limit, register_type, start_time, end_time, user_id);
     return await this.prismaService.register.findMany({
       take: limit,
       skip: limit * page,

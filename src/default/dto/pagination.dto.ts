@@ -10,7 +10,8 @@ export class PaginationDto {
   })
   @IsOptional()
   @IsNumberString()
-  page: string = '0';
+  @Transform(({ value }) => Number(value))
+  page: number = 0;
 
   @ApiProperty({
     example: 8,
@@ -19,5 +20,6 @@ export class PaginationDto {
   })
   @IsOptional()
   @IsNumberString()
-  limit: string = '8';
+  @Transform(({ value }) => Number(value))
+  limit: number = 8;
 }

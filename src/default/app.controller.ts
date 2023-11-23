@@ -11,9 +11,8 @@ import { AppService } from './app.service';
 import { Roles } from '../auth/auth.guard';
 import { RoleType } from '@prisma/client';
 import { FingerprintDto } from './dto/fingerprint.dto';
-import { PaginationDto } from './dto/pagination.dto';
 import { GetMyGuardedRegistersDto } from './dto/get-my-guarded-registers.dto';
-import { createAnEarlyExitForMyGuardedDto } from './dto/create-an-early-exit-for-my-guarded.dto';
+import { CreateAnEarlyExitForMyGuardedDto } from './dto/create-an-early-exit-for-my-guarded.dto';
 import { EarlyExitService } from '@/early-exit/early-exit.service';
 import { FindAllEarlyExitDto } from '@/early-exit/dto/find-all-early-exit.dto';
 import { RegisterService } from '@/register/register.service';
@@ -37,19 +36,13 @@ export class AppController {
   @Get('my-registers')
   async getRegistersByUserId(
     @Request() req,
-    @Query() { page, limit }: PaginationDto,
-    @Query() { type, start, end }: MyRegisterDto,
+    @Query() myRegisterDto: MyRegisterDto,
   ) {
     const user_id = req.user.sub;
-    const registers = await this.registerService.findAll({
+    return await this.registerService.findAll({
       user_id,
-      page: Number(page),
-      limit: Number(limit),
-      start_time: start,
-      end_time: end,
-      register_type: type,
+      ...myRegisterDto,
     });
-    return registers;
   }
 
   @Roles(RoleType.GUARDIAN)
@@ -62,13 +55,13 @@ export class AppController {
   @Get('my-guarded-registers')
   getGuardedRegistersByUserId(
     @Request() req,
-    @Query() { guarded, limit, page }: GetMyGuardedRegistersDto,
+    @Query()
+    getMyGuardedRegistersDto: GetMyGuardedRegistersDto,
   ) {
-    return this.appService.getGuardedRegistersByUserId({
-      guardian: req.user.sub,
-      guarded: guarded,
-      take: limit,
-      page: page,
+    const guardian = req.user.sub;
+    return this.appService.getMyGuardedRegisters({
+      guardian,
+      ...getMyGuardedRegistersDto,
     });
   }
 
@@ -94,16 +87,13 @@ export class AppController {
   createAnEarlyExitForMyGuarded(
     @Request() req,
     @Body()
-    { time, start_at, end_at, guarded_id }: createAnEarlyExitForMyGuardedDto,
+    createAnEarlyExitForMyGuardedDto: CreateAnEarlyExitForMyGuardedDto,
   ) {
     const guardian_id = req.user.sub;
 
     return this.earlyExitService.create({
       guardian_id,
-      guarded_id,
-      time,
-      start_at,
-      end_at,
+      ...createAnEarlyExitForMyGuardedDto,
     });
   }
 

@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsDate, IsEnum, IsInt, IsOptional } from 'class-validator';
+import { PaginationDto } from './pagination.dto';
 
-export class MyRegisterDto {
+export class MyRegisterDto extends PaginationDto {
   @ApiProperty({
     example: 'IN',
     description: 'The type of the register to filter the results',

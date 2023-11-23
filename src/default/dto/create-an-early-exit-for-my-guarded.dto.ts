@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { randomUUID } from 'crypto';
 
-export class createAnEarlyExitForMyGuardedDto {
+export class CreateAnEarlyExitForMyGuardedDto {
   @ApiProperty({
     example: '2021-09-01T00:00:00.000Z',
     description: 'The start date of the early exit (Optional - Default: now)',

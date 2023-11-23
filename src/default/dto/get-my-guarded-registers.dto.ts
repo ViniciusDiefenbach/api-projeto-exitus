@@ -1,9 +1,9 @@
 import { IsString, IsUUID } from 'class-validator';
-import { PaginationDto } from './pagination.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { randomUUID } from 'crypto';
+import { MyRegisterDto } from './my-registers.dto';
 
-export class GetMyGuardedRegistersDto extends PaginationDto {
+export class GetMyGuardedRegistersDto extends MyRegisterDto {
   @ApiProperty({
     example: randomUUID(),
     description: 'Guarded id',
