@@ -69,24 +69,18 @@ export class RegisterService {
     end_time,
     user_id,
   }: FindAllRegisterDto) {
+    console.log('Oi');
+    console.log(page, limit, register_type, start_time, end_time, user_id);
     return await this.prismaService.register.findMany({
       take: limit,
       skip: limit * page,
       where: {
-        AND: [
-          {
-            register_type: register_type as RegisterType,
-          },
-          {
-            user_id,
-          },
-          {
-            time: {
-              gte: start_time,
-              lte: end_time,
-            },
-          },
-        ],
+        user_id,
+        register_type: register_type as RegisterType,
+        time: {
+          gte: start_time,
+          lte: end_time,
+        },
       },
     });
   }

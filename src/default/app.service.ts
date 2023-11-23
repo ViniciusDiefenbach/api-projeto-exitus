@@ -23,6 +23,34 @@ export class AppService {
     });
   }
 
+  async deleteOneOfMyEarlyExits({ guardian_id, early_exit_id }) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id: guardian_id,
+      },
+    });
+    if (!user) {
+      throw new InternalServerErrorException('Usuário não encontrado');
+    }
+    const early_exit = await this.prismaService.earlyExit.findUnique({
+      where: {
+        id: early_exit_id,
+        guardian_id: guardian_id,
+      },
+    });
+    if (!early_exit) {
+      throw new InternalServerErrorException('Saída antecipada não encontrada');
+    }
+    await this.prismaService.earlyExit.delete({
+      where: {
+        id: early_exit_id,
+      },
+    });
+    return {
+      message: 'Saída antecipada deletada com sucesso',
+    };
+  }
+
   async getRegistersByUserId({
     id,
     take,

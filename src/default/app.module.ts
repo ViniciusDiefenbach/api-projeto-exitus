@@ -11,6 +11,8 @@ import { EarlyExitModule } from '../early-exit/early-exit.module';
 import { AuthModule } from '../auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '../auth/auth.guard';
+import { EarlyExitService } from '@/early-exit/early-exit.service';
+import { RegisterService } from '@/register/register.service';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { AuthGuard } from '../auth/auth.guard';
   controllers: [AppController],
   providers: [
     AppService,
+    EarlyExitService,
+    RegisterService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
