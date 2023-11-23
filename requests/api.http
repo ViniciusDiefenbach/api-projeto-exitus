@@ -8,7 +8,7 @@ Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODQyYThlY
 
 ### my-code
 GET http://localhost:3000/my-code HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODQyYThlYy1mYmRmLTRhMGQtYmZkMS04NGFkMTM5NjllNjciLCJyb2xlIjoiR1VBUkRFRCIsImlhdCI6MTUxNjIzOTAyMn0.cw9zw70Y6xi41RDYN3zknJLncMwT7H9hOIT0Az1ZPRA
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZTE5NGNhNS0wNDI1LTRiYWYtOWE4Yi03OWJmM2UzZmRlMmMiLCJyb2xlIjoiR1VBUkRFRCIsImlhdCI6MTcwMDcwNzM1NywiZXhwIjoxNzAwNzA3NDE3fQ.tq04btRfh7EcfiDkznvb9THQNpjIKNP8FqDRBIQodh0
 
 ### refresh-code
 PATCH http://localhost:3000/refresh-my-code HTTP/1.1
@@ -18,42 +18,14 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODQyYThlY
 GET http://localhost:3000/my-guardeds HTTP/1.1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyY2QxYmMyOC03OTgxLTQwNjktYmRiNC1mN2NhZTNmZmU3MTMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1MTYyMzkwMjJ9.nUhCjjIkx-osh65eF4YLzNiFqqReEFP0MnbCt6RFEEo
 
-### Get guarded registers (John Doe)
+### my-guarded-registers
 GET http://localhost:3000/my-guarded-registers?guarded=c842a8ec-fbdf-4a0d-bfd1-84ad13969e67 HTTP/1.1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4OGRkNWFjMi03YWE2LTQ1YTQtYjNlZC0yZmI1NjAyOWUyMTYiLCJyb2xlIjoiR1VBUkRJQU4iLCJpYXQiOjE1MTYyMzkwMjJ9.xhKWlya19xRD7awBdzqQJ-b6l6WzsMrTOIGi50btw-Y
 
-### Get an Error because guardian doesn't have relation with guarded (Molly)
-GET http://localhost:3000/my-guarded-registers?guarded=c842a8ec-fbdf-4a0d-bfd1-84ad13969e67 HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyYTFjNDg2ZS1mYTczLTQwODQtODk0MS04OTA2MjM1MjNjNmQiLCJyb2xlIjoiR1VBUkRJQU4iLCJpYXQiOjE1MTYyMzkwMjJ9.2OSL87PoQup_TC8QBFC85MOq3U0QhUTEeIVesSJeQ2E
-
-### Get an Error because user can't access this method (ademir)
-POST http://localhost:3000/gen-register HTTP/1.1
+### create-register
+POST http://localhost:3000/create-register HTTP/1.1
 Content-Type: application/json
 
 {
-    "fingerprint": "ea25d9b8-7e70-4541-b622-8b676ecba2fb"
-}
-
-### Create a register any time, because he is an employee (vinicius)
-POST http://localhost:3000/gen-register HTTP/1.1
-Content-Type: application/json
-
-{
-    "fingerprint": "af830e91-d06c-4547-9ab5-fbba04be8de3"
-}
-
-### Create register only in class hours, it will depend of the ../config (kaue)
-POST http://localhost:3000/gen-register HTTP/1.1
-Content-Type: application/json
-
-{
-    "fingerprint": "a5e2da32-9b9a-4c21-b28d-af23d6a4a518"
-}
-
-### Create register only in class hours, it will depend of the ../config (maria)
-POST http://localhost:3000/gen-register HTTP/1.1
-Content-Type: application/json
-
-{
-    "fingerprint": "97f08b42-2e39-4ab9-9ed3-e449032a2db4"
+    "fingerprint": "ee27bc41-fd3e-4a0b-84cb-48fb51f2c421"
 }

@@ -12,7 +12,16 @@ POST http://localhost:3000/auth HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "johndoe@mail.com",
+    "email": "kauesoares@gmail.com",
+    "password": "123456"
+}
+
+###
+POST http://localhost:3000/auth HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "nairasouza@gmail.com",
     "password": "123456"
 }
 
