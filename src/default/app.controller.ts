@@ -39,9 +39,11 @@ export class AppController {
     @Query() myRegisterDto: MyRegisterDto,
   ) {
     const user_id = req.user.sub;
-    const { type: register_type, ...result } = myRegisterDto;
+    const { type: register_type, start: start_time, end: end_time, ...result } = myRegisterDto;
     return await this.registerService.findAll({
       user_id,
+      start_time,
+      end_time,
       register_type, 
       ...result
     });
