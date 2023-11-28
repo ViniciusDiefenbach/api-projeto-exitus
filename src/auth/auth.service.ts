@@ -75,23 +75,17 @@ export class AuthService {
       choosedRole = user.roles[0].role.role_type;
     }
 
-    const access_token = this.jwtService.sign(
-      {
-        sub: user.id,
-        role: choosedRole as RoleType,
-      },
-      {
-        secret: 'teste123',
-        expiresIn: '60s',
-      },
-    );
+    const access_token = this.jwtService.sign({
+      sub: user.id,
+      role: choosedRole as RoleType,
+    });
 
     const refresh_token = await this.prismaService.refreshToken.create({
       data: {
         id: randomUUID(),
         user_id: user.id,
         choosed_role: choosedRole as RoleType,
-        expires_at: new Date(new Date().getTime() + 60 * 1000),
+        expires_at: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
         created_at: new Date(),
       },
     });
@@ -113,16 +107,10 @@ export class AuthService {
       throw new InternalServerErrorException('Token inválido!');
     }
 
-    const access_token = this.jwtService.sign(
-      {
-        sub: token.user_id,
-        role: token.choosed_role,
-      },
-      {
-        secret: 'teste123',
-        expiresIn: '120s',
-      },
-    );
+    const access_token = this.jwtService.sign({
+      sub: token.user_id,
+      role: token.choosed_role,
+    });
 
     if (token.expires_at < new Date()) {
       await this.prismaService.refreshToken.deleteMany({
@@ -136,7 +124,7 @@ export class AuthService {
           id: randomUUID(),
           user_id: token.user_id,
           choosed_role: token.choosed_role,
-          expires_at: new Date(new Date().getTime() + 60 * 1000),
+          expires_at: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
           created_at: new Date(),
         },
       });
