@@ -57,7 +57,7 @@ async function main() {
   });
   console.log('The admin was created successfully!');
   await prisma.user.upsert({
-    where: { email: '' },
+    where: { email: 'viniciusdiefenbach@gmail.com' },
     create: {
       active: true,
       name: 'Vinicius Diefenbach',
@@ -79,7 +79,7 @@ async function main() {
   });
   console.log('The employee was created successfully!');
   const student_alone = await prisma.user.upsert({
-    where: { email: '' },
+    where: { email: 'kauesoares@gmail.com' },
     create: {
       active: true,
       name: 'Kauê Soares',
@@ -151,7 +151,7 @@ async function main() {
   });
   console.log('The first student (alone) was created successfully!');
   const student_1 = await prisma.user.upsert({
-    where: { email: '' },
+    where: { email: 'pauloantonio@gmail.com' },
     create: {
       active: true,
       name: 'Paulo Antônio',
