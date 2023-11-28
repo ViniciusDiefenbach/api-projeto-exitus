@@ -5,7 +5,7 @@ import { FindAllUserRoleRelationDto } from './dto/find-all-user-role-relation.dt
 import { DeleteUserRoleRelationDto } from './dto/delete-user-role-relation.dto';
 import { Roles } from '@/auth/auth.guard';
 import { RoleType } from '@prisma/client';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('user-role-relation')
 @Controller('user-role-relation')
@@ -14,18 +14,21 @@ export class UserRoleRelationController {
     private readonly userRoleRelationService: UserRoleRelationService,
   ) {}
 
+  @ApiBearerAuth()
   @Roles(RoleType.ADMIN)
   @Post()
   create(@Body() createUserRoleRelationDto: CreateUserRoleRelationDto) {
     return this.userRoleRelationService.create(createUserRoleRelationDto);
   }
 
+  @ApiBearerAuth()
   @Roles(RoleType.ADMIN)
   @Get()
   findAll(@Query() findAllUserRoleRelationDto: FindAllUserRoleRelationDto) {
     return this.userRoleRelationService.findAll(findAllUserRoleRelationDto);
   }
 
+  @ApiBearerAuth()
   @Roles(RoleType.ADMIN)
   @Delete()
   remove(@Query() deleteUserRoleRelationDto: DeleteUserRoleRelationDto) {

@@ -11,6 +11,7 @@ async function bootstrap() {
     }),
   );
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('Projeto Exitus')
     .setDescription(
       'The entry and exit control API for schools. IMPORTANT: This API is not finished yet, so it is not recommended to use it in production. By the way, the most of the endpoints are using JWT, enforcing the front-end to pass the token in the Authorization Header.',
