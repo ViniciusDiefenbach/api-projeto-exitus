@@ -9,8 +9,8 @@ import { BcryptModule } from '@/bcrypt/bcrypt.module';
     BcryptModule,
     JwtModule.register({
       global: true,
-      secret: "Teste123",
-      signOptions: { expiresIn: '60s' },
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '2m' },
     }),
   ],
   controllers: [AuthController],
