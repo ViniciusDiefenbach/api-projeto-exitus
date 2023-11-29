@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate {
     }
     try {
       !this.jwtService.verify(token, {
-        secret: 'teste123',
+        secret: process.env.JWT_SECRET,
       });
     } catch (e) {
       throw new InternalServerErrorException('Token inválido!');
