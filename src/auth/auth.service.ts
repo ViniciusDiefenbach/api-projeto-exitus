@@ -75,10 +75,16 @@ export class AuthService {
       choosedRole = user.roles[0].role.role_type;
     }
 
-    const access_token = this.jwtService.sign({
-      sub: user.id,
-      role: choosedRole as RoleType,
-    });
+    const access_token = this.jwtService.sign(
+      {
+        sub: user.id,
+        role: choosedRole as RoleType,
+      },
+      {
+        secret: process.env.JWT_SECRET,
+        expiresIn: '2m',
+      },
+    );
 
     const refresh_token = await this.prismaService.refreshToken.create({
       data: {
@@ -107,10 +113,16 @@ export class AuthService {
       throw new InternalServerErrorException('Token inválido!');
     }
 
-    const access_token = this.jwtService.sign({
-      sub: token.user_id,
-      role: token.choosed_role,
-    });
+    const access_token = this.jwtService.sign(
+      {
+        sub: token.user_id,
+        role: token.choosed_role,
+      },
+      {
+        secret: process.env.JWT_SECRET,
+        expiresIn: '2m',
+      },
+    );
 
     if (token.expires_at < new Date()) {
       await this.prismaService.refreshToken.deleteMany({
