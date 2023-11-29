@@ -13,9 +13,11 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '../auth/auth.guard';
 import { EarlyExitService } from '@/early-exit/early-exit.service';
 import { RegisterService } from '@/register/register.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({}),
     PrismaModule,
     UserModule,
     RoleModule,
